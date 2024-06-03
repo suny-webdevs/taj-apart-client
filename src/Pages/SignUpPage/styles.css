@@ -1,0 +1,5 @@
+.file-input::file-selector-button {
+  background-color: #f1ac85;
+  border: 1px solid #f1ac85;
+  color: white;
+}

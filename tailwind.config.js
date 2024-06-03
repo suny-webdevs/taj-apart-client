@@ -2,7 +2,15 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        ostt: '"Old Standard TT", serif',
+      },
+      colors: {
+        primary: "#F1AC85",
+        secondary: "#444444",
+      },
+    },
   },
   plugins: [require("daisyui")],
 }
