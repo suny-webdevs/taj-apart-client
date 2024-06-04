@@ -1,22 +1,58 @@
 import { Helmet } from "react-helmet-async"
-import googleIcon from "../../assets/Icons/google.svg"
 import signUpImage from "../../assets/Images/signup-image.svg"
 import useAuth from "../../Hooks/useAuth"
 import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import "./styles.css"
+import { useForm } from "react-hook-form"
+import useAxiosPublic from "../../Hooks/useAxiosPublic"
+import SocialLogin from "../../Component/Shared/SocialLogin"
+import axios from "axios"
 
 const SignUp = () => {
-  const { googleSignIn } = useAuth()
+  const { createUser, updateUserProfile } = useAuth()
+  const axiosPublic = useAxiosPublic()
+
   const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
-  const redirect = "/"
+  const signUpHandler = async ({ name, photo, email, password }) => {
+    const formData = new FormData()
+    formData.append("image", photo[0])
 
-  const handleGoogleLogin = async () => {
-    const res = await googleSignIn()
-    if (res) {
-      toast.success("Login successful", { position: "top-center" })
-      navigate(redirect)
+    try {
+      const { data } = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_IMGBB_API_KEY
+        }`,
+        formData
+      )
+
+      await createUser(email, password)
+      await updateUserProfile(name, data.data.display_url)
+
+      const userInfo = {
+        name: name,
+        email: email,
+        photo: data.data.display_url,
+        role: "user",
+      }
+
+      const res = await axiosPublic.post("/users", userInfo)
+      if (res.data.insertedId) {
+        toast.success("Sign up successful", { position: "top-center" })
+        navigate("/")
+      }
+    } catch (err) {
+      if (err.message.includes("email-already-in-use")) {
+        toast.error("User already exists, please login", {
+          position: "bottom-center",
+        })
+      }
     }
   }
 
@@ -35,7 +71,11 @@ const SignUp = () => {
         />
       </div>
       <div className="card shrink-0 w-full max-w-md shadow-2xl bg-base-100">
-        <form className="card-body">
+        <form
+          onSubmit={handleSubmit(signUpHandler)}
+          className="card-body"
+        >
+          {/* Name */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Name</span>
@@ -43,10 +83,14 @@ const SignUp = () => {
             <input
               type="text"
               placeholder="Name"
+              {...register("name", { required: true })}
               className="input input-bordered"
-              required
             />
+            {errors.name && (
+              <span className="text-error">Name is required</span>
+            )}
           </div>
+          {/* Photo */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Photo</span>
@@ -54,10 +98,11 @@ const SignUp = () => {
             <input
               type="file"
               placeholder="Photo"
+              {...register("photo")}
               className="file-input file-input-bordered"
-              required
             />
           </div>
+          {/* Email */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
@@ -65,10 +110,12 @@ const SignUp = () => {
             <input
               type="email"
               placeholder="email"
+              {...register("email", { required: true })}
               className="input input-bordered"
-              required
             />
+            {errors.email && <span>This field is required</span>}
           </div>
+          {/* Password */}
           <div className="form-control">
             <label className="label">
               <span className="label-text">Password</span>
@@ -76,12 +123,17 @@ const SignUp = () => {
             <input
               type="password"
               placeholder="password"
+              {...register("password", { required: true })}
               className="input input-bordered"
-              required
             />
+            {errors.password && <span>This field is required</span>}
           </div>
+
           <div className="form-control mt-6">
-            <button className="bg-primary py-3 text-white rounded-lg">
+            <button
+              type="submit"
+              className="bg-primary py-3 text-white rounded-lg"
+            >
               Sign up
             </button>
           </div>
@@ -97,16 +149,7 @@ const SignUp = () => {
         </p>
         <p className="text-center mb-5">or sign up with</p>
         <div className="px-10 mb-10 flex justify-center">
-          <button
-            onClick={handleGoogleLogin}
-            className="bg-white flex items-center text-gray-700 justify-center gap-x-3 text-sm sm:text-base rounded-lg hover:bg-gray-100 duration-300 transition-colors border px-8 py-2.5"
-          >
-            <img
-              src={googleIcon}
-              className="w-7 h-7"
-            />
-            <span>Sign up with Google</span>
-          </button>
+          <SocialLogin root={"/"} />
         </div>
       </div>
     </div>

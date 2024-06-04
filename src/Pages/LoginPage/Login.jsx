@@ -1,27 +1,21 @@
 import { Helmet } from "react-helmet-async"
-import googleIcon from "../../assets/Icons/google.svg"
 import loginImage from "../../assets/Images/login-image.svg"
 import useAuth from "../../Hooks/useAuth"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
+import SocialLogin from "../../Component/Shared/SocialLogin"
+// import useAxiosPublic from "../../Hooks/useAxiosPublic"
 
 const Login = () => {
-  const { googleSignIn, userSignIn } = useAuth()
+  const { userSignIn } = useAuth()
+  // const axiosPublic = useAxiosPublic()
+
   const navigate = useNavigate()
   const location = useLocation()
 
   const redirect = location?.state ? location?.state : "/"
 
-  const handleGoogleLogin = async () => {
-    try {
-      await googleSignIn()
-      toast.success("Login successful", { position: "top-center" })
-      navigate(redirect, { replace: true })
-    } catch (err) {
-      console.log(err.message)
-    }
-  }
-
+  // Form login
   const handleSignIn = async (e) => {
     e.preventDefault()
 
@@ -113,16 +107,7 @@ const Login = () => {
         </p>
         <p className="text-center mb-5">or login with</p>
         <div className="px-10 mb-10 flex justify-center">
-          <button
-            onClick={handleGoogleLogin}
-            className="bg-white flex items-center text-gray-700 justify-center gap-x-3 text-sm sm:text-base rounded-lg hover:bg-gray-100 duration-300 transition-colors border px-8 py-2.5"
-          >
-            <img
-              src={googleIcon}
-              className="w-7 h-7"
-            />
-            <span>Login with Google</span>
-          </button>
+          <SocialLogin />
         </div>
       </div>
     </div>

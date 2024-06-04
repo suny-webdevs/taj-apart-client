@@ -3,8 +3,9 @@ import { Link, NavLink, useNavigate } from "react-router-dom"
 import logo from "../../assets/logo.png"
 import menuIcon from "../../assets/Icons/menu-icon.svg"
 
-import { IoLogInSharp, IoLogOutSharp } from "react-icons/io5"
+import { IoLogInSharp, IoLogOutSharp, IoHome } from "react-icons/io5"
 import { MdDashboard } from "react-icons/md"
+import { PiBuildingFill } from "react-icons/pi"
 
 import useAuth from "../../Hooks/useAuth"
 import toast from "react-hot-toast"
@@ -26,29 +27,56 @@ const Navbar = () => {
       <li>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "text-primary" : "hover:text-primary"
+            isActive
+              ? "text-primary flex items-center gap-2"
+              : "hover:text-primary flex items-center gap-2"
           }
           to="/"
         >
-          Home
+          <IoHome className="md:hidden" /> Home
         </NavLink>
       </li>
       <li>
         <NavLink
           className={({ isActive }) =>
-            isActive ? "text-primary" : "hover:text-primary"
+            isActive
+              ? "text-primary flex items-center gap-2"
+              : "hover:text-primary flex items-center gap-2"
           }
           to="/apartments"
         >
-          Apartments
+          <PiBuildingFill className="md:hidden" /> Apartments
         </NavLink>
       </li>
     </>
   )
 
+  const userMenu = (
+    <>
+      <li className="text-sm text-gray-400">{user?.displayName}</li>
+      <li className="mt-4">
+        <NavLink
+          to="/dashboard"
+          className="text-base flex items-center gap-2"
+        >
+          <MdDashboard className="text-xl" /> Dashboard
+        </NavLink>
+      </li>
+      <li className="mt-1.5">
+        <button
+          onClick={handleSignOut}
+          className="text-base text-error flex items-center gap-2"
+        >
+          {" "}
+          <IoLogOutSharp className="text-xl" /> Logout
+        </button>
+      </li>
+    </>
+  )
+
   return (
-    <div className="fixed left-0 top-0 w-full">
-      <div className="navbar text-white bg-secondary px-5 md:px-10">
+    <div className="w-full h-full">
+      <div className="fixed z-50 left-0 top-0 navbar text-white bg-secondary px-5 md:px-10">
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -63,7 +91,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content bg-secondary backdrop-blur-xl mt-3 z-[1] p-2 shadow rounded-box w-52"
+              className="dropdown-content bg-secondary text-lg space-y-2 backdrop-blur-xl mt-5 z-[1] py-4 px-5 shadow rounded-xl w-60"
             >
               {links}
             </ul>
@@ -87,7 +115,7 @@ const Navbar = () => {
             {links}
           </ul>
           {user ? (
-            <div>
+            <div className="">
               <div className="dropdown dropdown-end">
                 <div
                   tabIndex={0}
@@ -103,26 +131,9 @@ const Navbar = () => {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="mt-3 z-[1] py-4 px-5 shadow dropdown-content bg-[#444444] backdrop-blur-lg rounded-box w-60"
+                  className="mt-3 z-[1] py-4 px-5 shadow dropdown-content bg-secondary backdrop-blur-lg rounded-box w-60"
                 >
-                  <li className="text-sm text-gray-400">{user?.displayName}</li>
-                  <li className="mt-4">
-                    <NavLink
-                      to="/dashboard"
-                      className="text-base flex items-center gap-2"
-                    >
-                      <MdDashboard className="text-xl" /> Dashboard
-                    </NavLink>
-                  </li>
-                  <li className="mt-1.5">
-                    <button
-                      onClick={handleSignOut}
-                      className="text-base text-error flex items-center gap-2"
-                    >
-                      {" "}
-                      <IoLogOutSharp className="text-xl" /> Logout
-                    </button>
-                  </li>
+                  {userMenu}
                 </ul>
               </div>
             </div>
