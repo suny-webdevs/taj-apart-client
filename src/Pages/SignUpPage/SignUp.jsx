@@ -10,7 +10,7 @@ import SocialLogin from "../../Component/Shared/SocialLogin"
 import axios from "axios"
 
 const SignUp = () => {
-  const { createUser, updateUserProfile } = useAuth()
+  const { createUser, updateUserProfile, googleSignIn } = useAuth()
   const axiosPublic = useAxiosPublic()
 
   const navigate = useNavigate()
@@ -43,7 +43,7 @@ const SignUp = () => {
       }
 
       const res = await axiosPublic.post("/users", userInfo)
-      if (res.data.insertedId) {
+      if (res.data.insertedId || data.insertedId === null) {
         toast.success("Sign up successful", { position: "top-center" })
         navigate("/")
       }
@@ -56,21 +56,41 @@ const SignUp = () => {
     }
   }
 
+  // Google sign up
+  const handleGoogleSignUp = async () => {
+    try {
+      const { user } = await googleSignIn()
+      const userInfo = {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        role: "user",
+      }
+      const { data } = await axiosPublic.post("/users", userInfo)
+      if (data.insertedId || data.insertedId === null) {
+        toast.success("Sign up successful", { position: "top-center" })
+        navigate("/")
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   return (
-    <div className="w-full h-full flex flex-row-reverse items-center justify-center gap-20 py-20">
+    <div className="w-full min-h-screen flex flex-row-reverse items-center justify-center gap-20 md:py-20 p-5">
       <Helmet>
         <title>Sign up | Taj Apart</title>
       </Helmet>
-      <div className="w-1/2">
-        <h1 className="uppercase text-5xl text-center text-secondary font-ostt font-bold mb-10">
-          Sign up
-        </h1>
+      <div className="w-1/2 hidden md:flex">
         <img
           src={signUpImage}
           className="p-20"
         />
       </div>
-      <div className="card shrink-0 w-full max-w-md shadow-2xl bg-base-100">
+      <div className="card shrink-0 w-full max-w-md border bg-base-100">
+        <h1 className="uppercase text-4xl text-center text-secondary font-ostt font-bold mt-10">
+          Sign up
+        </h1>
         <form
           onSubmit={handleSubmit(signUpHandler)}
           className="card-body"
@@ -149,7 +169,7 @@ const SignUp = () => {
         </p>
         <p className="text-center mb-5">or sign up with</p>
         <div className="px-10 mb-10 flex justify-center">
-          <SocialLogin root={"/"} />
+          <SocialLogin handleGoogleSignUp={handleGoogleSignUp} />
         </div>
       </div>
     </div>

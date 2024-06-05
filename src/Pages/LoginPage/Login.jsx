@@ -4,16 +4,16 @@ import useAuth from "../../Hooks/useAuth"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import SocialLogin from "../../Component/Shared/SocialLogin"
-// import useAxiosPublic from "../../Hooks/useAxiosPublic"
+import useAxiosPublic from "../../Hooks/useAxiosPublic"
 
 const Login = () => {
-  const { userSignIn } = useAuth()
-  // const axiosPublic = useAxiosPublic()
+  const { userSignIn, googleSignIn } = useAuth()
+  const axiosPublic = useAxiosPublic()
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  const redirect = location?.state ? location?.state : "/"
+  const redirect = location?.state || "/"
 
   // Form login
   const handleSignIn = async (e) => {
@@ -36,21 +36,39 @@ const Login = () => {
     }
   }
 
+  // Google login
+  const handleGoogleLogin = async () => {
+    try {
+      const { user } = await googleSignIn()
+      const userInfo = {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        role: "user",
+      }
+      const { data } = await axiosPublic.post("/users", userInfo)
+
+      if (data.insertedId || data.insertedId === null) {
+        toast.success("Sign up successful", { position: "top-center" })
+        navigate(redirect, { replace: true })
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   return (
-    <div className="w-full h-screen flex items-center justify-center gap-20 py-20">
+    <div className="w-full min-h-screen flex items-center justify-center gap-20 md:py-20 p-5">
       <Helmet>
         <title>Login | Taj Apart</title>
       </Helmet>
-      <div className="w-1/2">
-        <h1 className="uppercase text-5xl text-center text-secondary font-ostt font-bold mb-10">
+      <div className="w-1/2 hidden md:flex">
+        <img src={loginImage} />
+      </div>
+      <div className="card shrink-0 w-full max-w-md border bg-base-100">
+        <h1 className="uppercase text-4xl text-center text-secondary font-ostt font-bold mt-10">
           Login
         </h1>
-        <img
-          src={loginImage}
-          className=""
-        />
-      </div>
-      <div className="card shrink-0 w-full max-w-md shadow-2xl bg-base-100">
         <form
           onSubmit={handleSignIn}
           className="card-body"
@@ -107,7 +125,7 @@ const Login = () => {
         </p>
         <p className="text-center mb-5">or login with</p>
         <div className="px-10 mb-10 flex justify-center">
-          <SocialLogin />
+          <SocialLogin handleGoogleLogin={handleGoogleLogin} />
         </div>
       </div>
     </div>
