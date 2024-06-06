@@ -125,7 +125,7 @@ const Navbar = () => {
                   <div className="w-10 rounded-full">
                     <img
                       className="w-10 h-10"
-                      src={user?.photoURL}
+                      src={user?.photoURL || "avatar.png"}
                     />
                   </div>
                 </div>

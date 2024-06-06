@@ -37,6 +37,9 @@ const Apartment = ({ apartment }) => {
       if (data.insertedId) {
         toast.success("Agreement done, wait for confirmation of admin.")
       }
+      if (data.insertedId === null) {
+        toast.error("Agreement already exist", { position: "bottom-center" })
+      }
     } catch (error) {
       console.log(error.message)
     }

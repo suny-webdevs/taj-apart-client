@@ -31,14 +31,16 @@ const SignUp = () => {
         }`,
         formData
       )
+      console.log(data)
+      const photoURL = data?.data.display_url
 
       await createUser(email, password)
-      await updateUserProfile(name, data.data.display_url)
+      await updateUserProfile(name, photoURL)
 
       const userInfo = {
         name: name,
         email: email,
-        photo: data.data.display_url,
+        photo: photoURL,
         role: "user",
       }
 
@@ -48,6 +50,7 @@ const SignUp = () => {
         navigate("/")
       }
     } catch (err) {
+      console.log(err.message)
       if (err.message.includes("email-already-in-use")) {
         toast.error("User already exists, please login", {
           position: "bottom-center",
@@ -118,9 +121,13 @@ const SignUp = () => {
             <input
               type="file"
               placeholder="Photo"
-              {...register("photo")}
+              {...register("photo", { required: true })}
               className="file-input file-input-bordered"
             />
+
+            {errors.photo && (
+              <span className="text-error">Photo is required</span>
+            )}
           </div>
           {/* Email */}
           <div className="form-control">
@@ -133,7 +140,9 @@ const SignUp = () => {
               {...register("email", { required: true })}
               className="input input-bordered"
             />
-            {errors.email && <span>This field is required</span>}
+            {errors.email && (
+              <span className="text-error">Email is required</span>
+            )}
           </div>
           {/* Password */}
           <div className="form-control">
@@ -146,7 +155,9 @@ const SignUp = () => {
               {...register("password", { required: true })}
               className="input input-bordered"
             />
-            {errors.password && <span>This field is required</span>}
+            {errors.password && (
+              <span className="text-error">Password is required</span>
+            )}
           </div>
 
           <div className="form-control mt-6">
