@@ -11,43 +11,42 @@ const Pagination = ({
 
   const pages = [...Array(totalPage).keys()].map((page) => page + 1)
 
-  console.log(pages)
-
   const handlePaginationButton = (value) => {
     setCurrentPage(value)
   }
 
   return (
-    <div className="w-full flex justify-center mt-20">
+    <div className="container mx-auto flex justify-center gap-5 flex-wrap px-10 mt-20">
       <button
+        disabled={currentPage === 1}
         onClick={() => handlePaginationButton(currentPage - 1)}
-        className={`${
-          currentPage === 1 && "hidden"
-        } py-2 px-4 m-2 hover:text-white bg-gray-100 hover:bg-[#F8B189] rounded`}
+        className="flex items-center gap-3 py-2 px-5 hover:text-white bg-gray-100 hover:bg-[#F8B189] rounded"
       >
-        <FaArrowLeftLong />
+        <FaArrowLeftLong /> Previous
       </button>
-      {pages.map((page) => (
-        <button
-          key={page}
-          onClick={() => handlePaginationButton(page)}
-          className={`py-2 px-4 m-2 ${
-            currentPage === page
-              ? "text-white bg-[#F8B189]"
-              : "text-black bg-gray-100"
-          } hover:text-white hover:bg-[#F8B189] rounded`}
-        >
-          {page}
-        </button>
-      ))}
+
+      <div className="flex gap-5">
+        {pages.map((page) => (
+          <button
+            key={page}
+            onClick={() => handlePaginationButton(page)}
+            className={`hidden md:flex py-2 px-5 ${
+              currentPage === page
+                ? "text-white bg-[#F8B189]"
+                : "text-black bg-gray-100"
+            } hover:text-white hover:bg-[#F8B189] rounded`}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
 
       <button
+        disabled={currentPage === 7}
         onClick={() => handlePaginationButton(currentPage + 1)}
-        className={`${
-          currentPage === 7 && "hidden"
-        } py-2 px-4 m-2 hover:text-white bg-gray-100 hover:bg-[#F8B189] rounded`}
+        className="flex items-center gap-3 py-2 px-5 hover:text-white bg-gray-100 hover:bg-[#F8B189] rounded"
       >
-        <FaArrowRightLong />
+        Next <FaArrowRightLong />
       </button>
     </div>
   )
