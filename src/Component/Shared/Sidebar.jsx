@@ -1,10 +1,14 @@
 import { useState } from "react"
 import logo from "../../assets/logo.png"
+
 import { PiSidebarFill, PiSidebarDuotone, PiBuildingFill } from "react-icons/pi"
 import { IoLogOutSharp, IoHome } from "react-icons/io5"
+import { GrAnnounce } from "react-icons/gr"
+
 import { Link, NavLink, useNavigate } from "react-router-dom"
 import useAuth from "../../Hooks/useAuth"
 import toast from "react-hot-toast"
+import { FaCircleUser } from "react-icons/fa6"
 
 const Sidebar = () => {
   const { userSignOut } = useAuth()
@@ -76,21 +80,21 @@ const Sidebar = () => {
               end
               className={({ isActive }) =>
                 isActive
-                  ? "text-primary py-2"
-                  : "text-white hover:text-primary py-2"
+                  ? "text-primary py-2 flex items-center gap-3"
+                  : "text-white hover:text-primary py-2 flex items-center gap-3"
               }
             >
-              My Profile
+              <FaCircleUser className="text-xl" /> My Profile
             </NavLink>
             <NavLink
               to={"/dashboard/announcements"}
               className={({ isActive }) =>
                 isActive
-                  ? "text-primary py-2"
-                  : "text-white hover:text-primary py-2"
+                  ? "text-primary py-2 flex items-center gap-3"
+                  : "text-white hover:text-primary py-2 flex items-center gap-3"
               }
             >
-              Announcements
+              <GrAnnounce className="text-xl" /> Announcements
             </NavLink>
           </nav>
         </div>
