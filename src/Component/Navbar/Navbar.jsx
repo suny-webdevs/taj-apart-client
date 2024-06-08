@@ -53,7 +53,7 @@ const Navbar = () => {
 
   const userMenu = (
     <>
-      <li className="text-sm text-gray-400">{user?.displayName}</li>
+      <li className="text-base text-gray-400">{user?.displayName}</li>
       <li className="mt-4">
         <NavLink
           to="/dashboard"

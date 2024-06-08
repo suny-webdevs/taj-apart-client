@@ -3,11 +3,11 @@ import signUpImage from "../../assets/Images/signup-image.svg"
 import useAuth from "../../Hooks/useAuth"
 import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
-import "./styles.css"
 import { useForm } from "react-hook-form"
 import useAxiosPublic from "../../Hooks/useAxiosPublic"
 import SocialLogin from "../../Component/Shared/SocialLogin"
-import axios from "axios"
+import { imageUpload } from "../../Utilities"
+import "./styles.css"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, googleSignIn } = useAuth()
@@ -21,31 +21,21 @@ const SignUp = () => {
   } = useForm()
 
   const signUpHandler = async ({ name, photo, email, password }) => {
-    const formData = new FormData()
-    formData.append("image", photo[0])
-
     try {
-      const { data } = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_IMGBB_API_KEY
-        }`,
-        formData
-      )
-      console.log(data)
-      const photoURL = data?.data.display_url
+      const photo_url = await imageUpload(photo[0])
 
       await createUser(email, password)
-      await updateUserProfile(name, photoURL)
+      await updateUserProfile(name, photo_url)
 
       const userInfo = {
         name: name,
         email: email,
-        photo: photoURL,
+        photo: photo_url,
         role: "user",
       }
 
-      const res = await axiosPublic.post("/users", userInfo)
-      if (res.data.insertedId || data.insertedId === null) {
+      const { data } = await axiosPublic.post("/users", userInfo)
+      if (data.insertedId || data.insertedId === null) {
         toast.success("Sign up successful", { position: "top-center" })
         navigate("/")
       }

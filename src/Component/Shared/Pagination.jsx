@@ -20,17 +20,17 @@ const Pagination = ({
       <button
         disabled={currentPage === 1}
         onClick={() => handlePaginationButton(currentPage - 1)}
-        className="flex items-center gap-3 py-2 px-5 hover:text-white bg-gray-100 hover:bg-[#F8B189] rounded"
+        className="flex items-center gap-3 py-2 px-5 hover:text-white bg-gray-100 hover:bg-[#F8B189] disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:cursor-not-allowed rounded"
       >
         <FaArrowLeftLong /> Previous
       </button>
 
-      <div className="flex gap-5">
+      <div className="hidden md:flex gap-5">
         {pages.map((page) => (
           <button
             key={page}
             onClick={() => handlePaginationButton(page)}
-            className={`hidden md:flex py-2 px-5 ${
+            className={`flex py-2 px-5 ${
               currentPage === page
                 ? "text-white bg-[#F8B189]"
                 : "text-black bg-gray-100"
@@ -44,7 +44,7 @@ const Pagination = ({
       <button
         disabled={currentPage === 7}
         onClick={() => handlePaginationButton(currentPage + 1)}
-        className="flex items-center gap-3 py-2 px-5 hover:text-white bg-gray-100 hover:bg-[#F8B189] rounded"
+        className="flex items-center gap-3 py-2 px-5 hover:text-white bg-gray-100 hover:bg-[#F8B189] disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:cursor-not-allowed rounded"
       >
         Next <FaArrowRightLong />
       </button>

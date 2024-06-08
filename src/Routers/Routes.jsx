@@ -5,7 +5,9 @@ import Error from "../Pages/ErrorPage/Error"
 import Login from "../Pages/LoginPage/Login"
 import SignUp from "../Pages/SignUpPage/SignUp"
 import Apartments from "../Pages/Apartments/Apartments"
-import Dashboard from "../Pages/Dashboard/Dashboard"
+import MyProfile from "../Pages/Dashboard/MyProfile"
+import Announcements from "../Pages/Dashboard/Announcements"
+import DashboardLayout from "../Layouts/DashboardLayout"
 
 const router = createBrowserRouter([
   {
@@ -27,8 +29,17 @@ const router = createBrowserRouter([
   { path: "sign-up", element: <SignUp /> },
   {
     path: "dashboard",
-    element: <Dashboard />,
-    children: [],
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <MyProfile />,
+      },
+      {
+        path: "announcements",
+        element: <Announcements />,
+      },
+    ],
   },
 ])
 
