@@ -5,13 +5,14 @@ import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
 import SocialLogin from "../../Component/Shared/SocialLogin"
-import { imageUpload } from "../../Utilities"
+import { imageUpload, putUser } from "../../Utilities"
 import "./styles.css"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, googleSignIn } = useAuth()
 
   const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -24,6 +25,15 @@ const SignUp = () => {
 
       await createUser(email, password)
       await updateUserProfile(name, photo_url)
+
+      // store user in bd
+      const userInfo = {
+        name: name,
+        email: email,
+        photo: photo_url,
+        role: "user",
+      }
+      await putUser(userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
       navigate("/")
@@ -41,7 +51,17 @@ const SignUp = () => {
   // Google sign up
   const handleGoogleSignUp = async () => {
     try {
-      await googleSignIn()
+      const { user } = await googleSignIn()
+
+      // store user in bd
+      const userInfo = {
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+        role: "user",
+      }
+      await putUser(userInfo)
+
       toast.success("Sign up successful", { position: "top-center" })
       navigate("/")
       // }

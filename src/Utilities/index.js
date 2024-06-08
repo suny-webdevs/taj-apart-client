@@ -10,3 +10,11 @@ export const imageUpload = async (image) => {
   )
   return data?.data.display_url
 }
+
+export const putUser = async (userInfo) => {
+  const { data } = await axios.put(
+    `${import.meta.env.VITE_API_URL}/users`,
+    userInfo
+  )
+  return data
+}

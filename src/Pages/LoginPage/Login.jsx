@@ -4,6 +4,7 @@ import useAuth from "../../Hooks/useAuth"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import SocialLogin from "../../Component/Shared/SocialLogin"
+import { putUser } from "../../Utilities"
 
 const Login = () => {
   const { userSignIn, googleSignIn } = useAuth()
@@ -37,7 +38,17 @@ const Login = () => {
   // Google login
   const handleGoogleLogin = async () => {
     try {
-      await googleSignIn()
+      const { user } = await googleSignIn()
+
+      // store user in bd
+      const userInfo = {
+        name: user?.displayName,
+        email: user?.email,
+        photo: user?.photoURL,
+        role: "user",
+      }
+      await putUser(userInfo)
+
       toast.success("Sign up successful", { position: "top-center" })
       navigate(redirect, { replace: true })
     } catch (error) {
