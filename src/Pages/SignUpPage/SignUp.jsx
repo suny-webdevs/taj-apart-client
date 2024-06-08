@@ -4,14 +4,12 @@ import useAuth from "../../Hooks/useAuth"
 import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
-import useAxiosPublic from "../../Hooks/useAxiosPublic"
 import SocialLogin from "../../Component/Shared/SocialLogin"
 import { imageUpload } from "../../Utilities"
 import "./styles.css"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, googleSignIn } = useAuth()
-  const axiosPublic = useAxiosPublic()
 
   const navigate = useNavigate()
   const {
@@ -27,18 +25,9 @@ const SignUp = () => {
       await createUser(email, password)
       await updateUserProfile(name, photo_url)
 
-      const userInfo = {
-        name: name,
-        email: email,
-        photo: photo_url,
-        role: "user",
-      }
-
-      const { data } = await axiosPublic.post("/users", userInfo)
-      if (data.insertedId || data.insertedId === null) {
-        toast.success("Sign up successful", { position: "top-center" })
-        navigate("/")
-      }
+      toast.success("Sign up successful", { position: "top-center" })
+      navigate("/")
+      // }
     } catch (err) {
       console.log(err.message)
       if (err.message.includes("email-already-in-use")) {
@@ -52,18 +41,10 @@ const SignUp = () => {
   // Google sign up
   const handleGoogleSignUp = async () => {
     try {
-      const { user } = await googleSignIn()
-      const userInfo = {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        role: "user",
-      }
-      const { data } = await axiosPublic.post("/users", userInfo)
-      if (data.insertedId || data.insertedId === null) {
-        toast.success("Sign up successful", { position: "top-center" })
-        navigate("/")
-      }
+      await googleSignIn()
+      toast.success("Sign up successful", { position: "top-center" })
+      navigate("/")
+      // }
     } catch (error) {
       console.log(error.message)
     }

@@ -4,11 +4,9 @@ import useAuth from "../../Hooks/useAuth"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import SocialLogin from "../../Component/Shared/SocialLogin"
-import useAxiosPublic from "../../Hooks/useAxiosPublic"
 
 const Login = () => {
   const { userSignIn, googleSignIn } = useAuth()
-  const axiosPublic = useAxiosPublic()
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -39,19 +37,9 @@ const Login = () => {
   // Google login
   const handleGoogleLogin = async () => {
     try {
-      const { user } = await googleSignIn()
-      const userInfo = {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-        role: "user",
-      }
-      const { data } = await axiosPublic.post("/users", userInfo)
-
-      if (data.insertedId || data.insertedId === null) {
-        toast.success("Sign up successful", { position: "top-center" })
-        navigate(redirect, { replace: true })
-      }
+      await googleSignIn()
+      toast.success("Sign up successful", { position: "top-center" })
+      navigate(redirect, { replace: true })
     } catch (error) {
       console.log(error.message)
     }

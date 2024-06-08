@@ -11,7 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth"
 import auth from "../Firebase/firebaseConfig"
-// import useAxiosPublic from "../Hooks/useAxiosPublic"
+import useAxiosPublic from "../Hooks/useAxiosPublic"
 
 export const AuthContext = createContext(null)
 
@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState("")
   const [loading, setLoading] = useState(true)
   const googleProvider = new GoogleAuthProvider()
-  //   const axiosPublic = useAxiosPublic()
+  const axiosPublic = useAxiosPublic()
 
   const createUser = (email, password) => {
     setLoading(true)
@@ -53,19 +53,36 @@ const AuthProvider = ({ children }) => {
     return deleteUser(bistroUser)
   }
 
+  // jwt
+  const getToken = async (email) => {
+    const userInfo = { email: email }
+    const { data } = await axiosPublic.post("/jwt", userInfo)
+    return data
+  }
+
+  // save user
+  const saveUser = async (currentUser) => {
+    console.log("saved user", currentUser)
+    const userInfo = {
+      name: currentUser?.displayName,
+      email: currentUser?.email,
+      photo: currentUser?.photoURL,
+      role: "user",
+    }
+    const { data } = await axiosPublic.put("/users", userInfo)
+    console.log(data)
+    return data
+  }
+
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
-      //   if (currentUser) {
-      //     const userInfo = { email: currentUser.email }
-      //     axiosPublic.post("/jwt", userInfo).then((res) => {
-      //       if (res.data.token) {
-      //         localStorage.setItem("access-token", res.data.token)
-      //       }
-      //     })
-      //   } else {
-      //     localStorage.removeItem("access-token")
-      //   }
+      if (currentUser) {
+        // getToken(currentUser.email)
+        saveUser(currentUser)
+      } else {
+        localStorage.removeItem("access-token")
+      }
       setLoading(false)
     })
     return () => unSubscribe()
