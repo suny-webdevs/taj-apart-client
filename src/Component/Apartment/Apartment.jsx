@@ -3,7 +3,6 @@ import useAuth from "../../Hooks/useAuth"
 import useAxiosPublic from "../../Hooks/useAxiosPublic"
 import toast from "react-hot-toast"
 
-// import { LuClock12 } from "react-icons/lu"
 import { useLocation, useNavigate } from "react-router-dom"
 
 const Apartment = ({ apartment }) => {
@@ -31,6 +30,7 @@ const Apartment = ({ apartment }) => {
         user: {
           name: user?.displayName,
           email: user?.email,
+          payment_status: "unpaid",
         },
       }
       const { data } = await axiosPublic.post("/agreements", agreementInfo)

@@ -1,17 +1,25 @@
 import { useState } from "react"
-import logo from "../../assets/logo.png"
+import logo from "../../../assets/logo.png"
 
 import { PiSidebarFill, PiSidebarDuotone, PiBuildingFill } from "react-icons/pi"
 import { IoLogOutSharp, IoHome } from "react-icons/io5"
-import { GrAnnounce } from "react-icons/gr"
 
-import { Link, NavLink, useNavigate } from "react-router-dom"
-import useAuth from "../../Hooks/useAuth"
+import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
-import { FaCircleUser } from "react-icons/fa6"
+
+import MenuLinks from "./MenuLinks/MenuLinks"
+import useAuth from "../../../Hooks/useAuth"
+import useRole from "../../../Hooks/useRole"
+import UserMenu from "./UserMenu/UserMenu"
+import MemberMenu from "./MemberMenu/MemberMenu"
+import AdminMenu from "./AdminMEnu/AdminMenu"
 
 const Sidebar = () => {
   const { userSignOut } = useAuth()
+  const [role] = useRole()
+
+  console.log(role)
+
   const [isActive, setIsActive] = useState(false)
 
   const navigate = useNavigate()
@@ -75,51 +83,25 @@ const Sidebar = () => {
             </span>
           </Link>
           <nav className="flex flex-col mt-10 pl-2">
-            <NavLink
-              to={"/dashboard"}
-              end
-              className={({ isActive }) =>
-                isActive
-                  ? "text-primary py-2 flex items-center gap-3"
-                  : "text-white hover:text-primary py-2 flex items-center gap-3"
-              }
-            >
-              <FaCircleUser className="text-xl" /> My Profile
-            </NavLink>
-            <NavLink
-              to={"/dashboard/announcements"}
-              className={({ isActive }) =>
-                isActive
-                  ? "text-primary py-2 flex items-center gap-3"
-                  : "text-white hover:text-primary py-2 flex items-center gap-3"
-              }
-            >
-              <GrAnnounce className="text-xl" /> Announcements
-            </NavLink>
+            {/* Dynamic nav */}
+            {role === "user" && <UserMenu />}
+            {role === "member" && <MemberMenu />}
+            {role === "admin" && <AdminMenu />}
           </nav>
         </div>
         <div>
           <nav className="flex flex-col pl-2">
-            <NavLink
-              to={"/"}
-              className={({ isActive }) =>
-                isActive
-                  ? "text-primary py-2 flex items-center gap-3"
-                  : "text-white hover:text-primary py-2 flex items-center gap-3"
-              }
-            >
-              <IoHome className="text-xl" /> Home
-            </NavLink>
-            <NavLink
-              to={"/apartments"}
-              className={({ isActive }) =>
-                isActive
-                  ? "text-primary py-2 flex items-center gap-3"
-                  : "text-white hover:text-primary py-2 flex items-center gap-3"
-              }
-            >
-              <PiBuildingFill className="text-xl" /> Apartments
-            </NavLink>
+            <MenuLinks
+              link={"/"}
+              label={"Home"}
+              icon={IoHome}
+            />
+            <MenuLinks
+              link={"/apartments"}
+              label={"Apartments"}
+              icon={PiBuildingFill}
+            />
+
             <button
               onClick={handleLogout}
               className="text-error py-2 text-left flex items-center gap-3"
