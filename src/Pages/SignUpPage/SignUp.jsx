@@ -5,11 +5,13 @@ import { Link, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
 import SocialLogin from "../../Component/Shared/SocialLogin"
-import { imageUpload, putUser } from "../../Utilities"
+import { imageUpload } from "../../Utilities"
 import "./styles.css"
+import useAxiosSecure from "../../Hooks/useAxiosSecure"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, googleSignIn } = useAuth()
+  const axiosSecure = useAxiosSecure()
 
   const navigate = useNavigate()
 
@@ -33,7 +35,7 @@ const SignUp = () => {
         photo: photo_url,
         role: "user",
       }
-      await putUser(userInfo)
+      await axiosSecure("/users", userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
       navigate("/")
@@ -60,7 +62,7 @@ const SignUp = () => {
         photo: user?.photoURL,
         role: "user",
       }
-      await putUser(userInfo)
+      await axiosSecure("/users", userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
       navigate("/")

@@ -4,7 +4,6 @@ import useAuth from "../../Hooks/useAuth"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import SocialLogin from "../../Component/Shared/SocialLogin"
-// import { putUser } from "../../Utilities"
 import useAxiosSecure from "../../Hooks/useAxiosSecure"
 
 const Login = () => {
@@ -52,8 +51,7 @@ const Login = () => {
       }
       console.log(userInfo)
       // await putUser(userInfo)
-      const { data } = await axiosSecure.put("/users", userInfo)
-      console.log(data)
+      await axiosSecure.put("/users", userInfo)
 
       toast.success("Login successful", { position: "top-center" })
       navigate(redirect, { replace: true })
