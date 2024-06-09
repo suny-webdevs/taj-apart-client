@@ -60,33 +60,14 @@ const AuthProvider = ({ children }) => {
   //   return data
   // }
 
-  // save user
-  // const saveUser = async (currentUser) => {
-  //   console.log("saved user", currentUser)
-  //   try {
-  //     const userInfo = {
-  //       name: currentUser?.displayName,
-  //       email: currentUser?.email,
-  //       photo: currentUser?.photoURL,
-  //       role: "user",
-  //     }
-  //     const { data } = await axiosPublic.put("/users", userInfo)
-  //     console.log(data)
-  //     return data
-  //   } catch (err) {
-  //     console.log(err.message)
-  //   }
-  // }
-
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
-      if (currentUser) {
-        // getToken(currentUser.email)
-        // saveUser(currentUser)
-      } else {
-        localStorage.removeItem("access-token")
-      }
+      // if (currentUser) {
+      //   // getToken(currentUser.email)
+      // } else {
+      //   localStorage.removeItem("access-token")
+      // }
       setLoading(false)
     })
     return () => unSubscribe()

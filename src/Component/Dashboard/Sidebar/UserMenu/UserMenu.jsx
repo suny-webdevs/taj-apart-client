@@ -6,7 +6,7 @@ const UserMenu = () => {
   return (
     <>
       <MenuLinks
-        link={"/dashboard"}
+        link={"/dashboard/user"}
         label={"My Profile"}
         icon={FaCircleUser}
       />

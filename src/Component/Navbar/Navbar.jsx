@@ -9,9 +9,12 @@ import { PiBuildingFill } from "react-icons/pi"
 
 import useAuth from "../../Hooks/useAuth"
 import toast from "react-hot-toast"
+import useRole from "../../Hooks/useRole"
 
 const Navbar = () => {
   const { user, userSignOut } = useAuth()
+  const [role] = useRole()
+
   const navigate = useNavigate()
 
   const handleSignOut = async () => {
@@ -55,12 +58,30 @@ const Navbar = () => {
     <>
       <li className="text-base text-gray-400">{user?.displayName}</li>
       <li className="mt-4">
-        <NavLink
-          to="/dashboard"
-          className="text-base flex items-center gap-2"
-        >
-          <MdDashboard className="text-xl" /> Dashboard
-        </NavLink>
+        {role === "user" && (
+          <NavLink
+            to="/dashboard/user"
+            className="text-base flex items-center gap-2"
+          >
+            <MdDashboard className="text-xl" /> Dashboard
+          </NavLink>
+        )}
+        {role === "member" && (
+          <NavLink
+            to="/dashboard/member"
+            className="text-base flex items-center gap-2"
+          >
+            <MdDashboard className="text-xl" /> Dashboard
+          </NavLink>
+        )}
+        {role === "admin" && (
+          <NavLink
+            to="/dashboard/admin"
+            className="text-base flex items-center gap-2"
+          >
+            <MdDashboard className="text-xl" /> Dashboard
+          </NavLink>
+        )}
       </li>
       <li className="mt-1.5">
         <button

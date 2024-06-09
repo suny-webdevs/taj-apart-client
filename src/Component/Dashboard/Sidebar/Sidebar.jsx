@@ -18,8 +18,6 @@ const Sidebar = () => {
   const { userSignOut } = useAuth()
   const [role] = useRole()
 
-  console.log(role)
-
   const [isActive, setIsActive] = useState(false)
 
   const navigate = useNavigate()
