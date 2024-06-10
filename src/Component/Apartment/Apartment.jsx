@@ -2,6 +2,7 @@ import PropTypes from "prop-types"
 import useAuth from "../../Hooks/useAuth"
 import useAxiosPublic from "../../Hooks/useAxiosPublic"
 import toast from "react-hot-toast"
+import { format } from "date-fns"
 
 import { useLocation, useNavigate } from "react-router-dom"
 
@@ -27,18 +28,17 @@ const Apartment = ({ apartment }) => {
         apartment_no: apartment.apartment_no,
         rent_per_year: apartment.rent_per_year,
         status: "pending",
+        request_date: format(new Date(), "PPP"),
         user: {
           name: user?.displayName,
           email: user?.email,
           payment_status: "unpaid",
         },
       }
-      const { data } = await axiosPublic.post("/agreements", agreementInfo)
-      if (data.insertedId) {
+      const { data } = await axiosPublic.put("/agreements", agreementInfo)
+      console.log(data)
+      if (data.upsertedCount > 0) {
         toast.success("Agreement done, wait for confirmation of admin.")
-      }
-      if (data.insertedId === null) {
-        toast.error("Agreement already exist", { position: "bottom-center" })
       }
     } catch (error) {
       console.log(error.message)
