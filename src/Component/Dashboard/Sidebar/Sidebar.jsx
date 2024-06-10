@@ -36,7 +36,7 @@ const Sidebar = () => {
   const currentYear = date.getFullYear()
 
   return (
-    <div>
+    <div className="z-50">
       {/* Top navbar for small device */}
       <div className="w-full md:hidden flex justify-between items-center px-5 py-3 bg-secondary">
         <Link

@@ -35,7 +35,7 @@ const SignUp = () => {
         photo: photo_url,
         role: "user",
       }
-      await axiosSecure("/users", userInfo)
+      await axiosSecure.put("/users", userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
       navigate("/")

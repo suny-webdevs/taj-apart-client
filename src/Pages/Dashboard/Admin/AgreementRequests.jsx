@@ -21,13 +21,35 @@ const AgreementRequests = () => {
     },
   })
 
+  const handleAccept = async (agreement) => {
+    try {
+      const { data: user } = await axiosSecure(`/users/${agreement.user.email}`)
+      console.log(user)
+      const updateInfo = {
+        email: user.email,
+        role: "member",
+      }
+      await axiosSecure.put("/users", updateInfo)
+
+      const updateStatus = {
+        email: agreement.user.email,
+        status: "checked",
+      }
+      await axiosSecure.put("/agreements", updateStatus)
+
+      refetch()
+      toast.success("Agreement checked successfully!")
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   const handleRemove = async (id) => {
     try {
-      const { data } = await axiosSecure.delete(`/agreements/${id}`)
-      if (data.deletedCount > 0) {
-        toast.success("Agreement delete successfully!")
-      }
+      await axiosSecure.delete(`/agreements/${id}`)
+
       refetch()
+      toast.success("Agreement removed successfully!")
     } catch (error) {
       console.log(error.message)
     }
@@ -36,15 +58,18 @@ const AgreementRequests = () => {
   if (isLoading) return <LoadingSpinner />
 
   return (
-    <div>
+    <div className="z-10 px-10">
       <Helmet>
-        <title>Manage Agreements | Taj Apart</title>
+        <title>Agreements Requests | Taj Apart</title>
       </Helmet>
-      <div>
+      <div className="md:my-10">
+        <h1 className="text-center text-3xl text-primary font-bold my-5">
+          Agreement Requests
+        </h1>
         <div className="overflow-x-auto">
-          <table className="table">
+          <table className="table overflow-hidden">
             {/* head */}
-            <thead>
+            <thead className="bg-primary text-white text-base">
               <tr>
                 <th></th>
                 <th>Name</th>
@@ -54,7 +79,7 @@ const AgreementRequests = () => {
                 <th>Apartment No</th>
                 <th>Rent</th>
                 <th>Request Date</th>
-                <th>Payment Status</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -63,21 +88,34 @@ const AgreementRequests = () => {
               {agreements.map((agreement, index) => (
                 <tr key={agreement._id}>
                   <th>{index + 1}</th>
-                  <td>{agreement.user.name}</td>
-                  <td>{agreement.user.email}</td>
+                  <td>{agreement?.user?.name}</td>
+                  <td>{agreement?.user?.email}</td>
                   <td>{agreement.floor_no}</td>
                   <td>{agreement.block_name}</td>
                   <td>{agreement.apartment_no}</td>
                   <td>${agreement.rent_per_year}</td>
                   <td>{agreement.request_date}</td>
-                  <td>{agreement.user.payment_status}</td>
-                  <td className="flex items-center gap-3">
+                  <td>
+                    <span
+                      className={`${
+                        agreement.status === "pending"
+                          ? "bg-yellow-50 text-yellow-500"
+                          : "bg-green-50 text-green-500"
+                      } capitalize py-1 px-3 rounded-full`}
+                    >
+                      {agreement.status}
+                    </span>
+                  </td>
+                  <td className="flex items-center justify-center gap-3">
                     {/* Accept button */}
                     <div
                       className="tooltip"
                       data-tip="Accept"
                     >
-                      <button className="text-2xl text-success">
+                      <button
+                        onClick={() => handleAccept(agreement)}
+                        className="text-2xl text-success"
+                      >
                         <AiFillCheckCircle />
                       </button>
                     </div>

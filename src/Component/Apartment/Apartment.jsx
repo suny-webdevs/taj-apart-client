@@ -29,11 +29,9 @@ const Apartment = ({ apartment }) => {
         rent_per_year: apartment.rent_per_year,
         status: "pending",
         request_date: format(new Date(), "PPP"),
-        user: {
-          name: user?.displayName,
-          email: user?.email,
-          payment_status: "unpaid",
-        },
+        payment_status: "unpaid",
+        user_name: user?.displayName,
+        user_email: user?.email,
       }
       const { data } = await axiosPublic.put("/agreements", agreementInfo)
       console.log(data)
