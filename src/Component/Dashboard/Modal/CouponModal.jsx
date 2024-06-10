@@ -44,18 +44,6 @@ export default function CouponModal({ handleSaveCoupon, isOpen, close }) {
                     >
                       <div className="form-control">
                         <label className="label">
-                          <span className="label-text">Coupon Name</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="Enter coupon name"
-                          className="input input-bordered"
-                          required
-                        />
-                      </div>
-                      <div className="form-control">
-                        <label className="label">
                           <span className="label-text">Coupon Code</span>
                         </label>
                         <input
@@ -74,6 +62,18 @@ export default function CouponModal({ handleSaveCoupon, isOpen, close }) {
                           type="number"
                           name="discount"
                           placeholder="Enter discount amount"
+                          className="input input-bordered"
+                          required
+                        />
+                      </div>
+                      <div className="form-control">
+                        <label className="label">
+                          <span className="label-text">Coupon Description</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="desc"
+                          placeholder="Enter coupon description"
                           className="input input-bordered"
                           required
                         />

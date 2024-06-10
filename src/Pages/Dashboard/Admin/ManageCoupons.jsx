@@ -35,13 +35,13 @@ const ManageCoupons = () => {
     e.preventDefault()
 
     const form = e.target
-    const name = form.name.value
+    const desc = form.desc.value
     const code = form.code.value
     const discount = form.discount.value
 
     try {
       const savedInfo = {
-        name,
+        desc,
         code,
         discount,
       }
@@ -84,57 +84,6 @@ const ManageCoupons = () => {
           isOpen={isOpen}
           close={close}
         />
-        {/* <div className="card shrink-0 w-full bg-base-100">
-          <form
-            onSubmit={handleSaveCoupon}
-            className="card-body !p-5 md:flex-row md:items-center"
-          >
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Coupon Name</span>
-              </label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter coupon name"
-                className="input input-bordered"
-                required
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Coupon Code</span>
-              </label>
-              <input
-                type="text"
-                name="code"
-                placeholder="Enter coupon code"
-                className="input input-bordered"
-                required
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Discount Amount</span>
-              </label>
-              <input
-                type="number"
-                name="discount"
-                placeholder="Enter discount amount"
-                className="input input-bordered"
-                required
-              />
-            </div>
-            <div className="form-control mt-9 w-full">
-              <button
-                type="submit"
-                className="bg-primary text-white rounded-md py-3"
-              >
-                Create coupon
-              </button>
-            </div>
-          </form>
-        </div> */}
       </div>
       <div>
         <h1 className="text-3xl text-primary font-bold my-5">Manage coupons</h1>
@@ -144,7 +93,7 @@ const ManageCoupons = () => {
             <thead className="text-white text-base bg-primary">
               <tr>
                 <th></th>
-                <th>Coupon Name</th>
+                <th>Coupon Description</th>
                 <th>Coupon Code</th>
                 <th>Discount Amount</th>
                 <th>Action</th>
@@ -155,7 +104,7 @@ const ManageCoupons = () => {
               {coupons.map((coupon, index) => (
                 <tr key={coupon._id}>
                   <th>{index + 1}</th>
-                  <td className="capitalize">{coupon.name}</td>
+                  <td className="capitalize">{coupon.desc}</td>
                   <td className="uppercase">{coupon.code}</td>
                   <td>{coupon.discount}%</td>
                   <td>

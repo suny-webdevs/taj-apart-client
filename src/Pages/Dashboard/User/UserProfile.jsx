@@ -1,7 +1,9 @@
+import useAuth from "../../../Hooks/useAuth"
 import avatar from "/avatar.png"
-import PropTypes from "prop-types"
 
-const UserProfile = ({ user }) => {
+const UserProfile = () => {
+  const { user } = useAuth()
+
   return (
     <div className="w-full min-h-screen flex flex-col gap-1 p-5 justify-center items-center">
       <div className="w-full h-52 bg-primary rounded-md"></div>
@@ -46,10 +48,6 @@ const UserProfile = ({ user }) => {
       </div>
     </div>
   )
-}
-
-UserProfile.propTypes = {
-  user: PropTypes.object,
 }
 
 export default UserProfile
