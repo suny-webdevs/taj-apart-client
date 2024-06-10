@@ -34,7 +34,6 @@ const Apartment = ({ apartment }) => {
         user_email: user?.email,
       }
       const { data } = await axiosPublic.put("/agreements", agreementInfo)
-      console.log(data)
       if (data.upsertedCount > 0) {
         toast.success("Agreement done, wait for confirmation of admin.")
       }

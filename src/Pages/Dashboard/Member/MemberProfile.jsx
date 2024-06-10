@@ -1,10 +1,19 @@
 import { useState } from "react"
 import useAuth from "../../../Hooks/useAuth"
 import avatar from "/avatar.png"
+import useAxiosPublic from "../../../Hooks/useAxiosPublic"
 
 const MemberProfile = () => {
   const { user } = useAuth()
   const [member, setMember] = useState([])
+
+  const axiosPublic = useAxiosPublic()
+
+  const getMember = async () => {
+    const { data } = await axiosPublic(`/users/${user?.email}`)
+    console.log(data)
+  }
+  getMember()
 
   if (user?.role === "member") {
     setMember(user)

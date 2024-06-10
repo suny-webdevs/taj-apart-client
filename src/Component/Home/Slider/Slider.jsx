@@ -8,8 +8,20 @@ import "swiper/css/thumbs"
 import "./styles.css"
 
 import { Autoplay, Navigation, Pagination } from "swiper/modules"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import Slide from "./Slide"
 
 const Slider = () => {
+  const [slides, setSlides] = useState([])
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await axios.get("/slides.json")
+      setSlides(data)
+    }
+    getData()
+  }, [])
+
   return (
     <div className="w-full h-[calc(100vh_-_63px)] mt-[63px]">
       <Swiper
@@ -31,15 +43,15 @@ const Slider = () => {
         modules={[Pagination, Navigation, Autoplay]}
         className="mySwiper"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            <Slide
+              img={slide.img}
+              title={slide.title}
+              sub_title={slide.sub_tile}
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   )

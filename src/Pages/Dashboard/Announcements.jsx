@@ -8,12 +8,12 @@ const Announcements = () => {
   if (isLoading) return <LoadingSpinner />
 
   return (
-    <div className="p-6">
+    <div className="p-6 w-full min-h-screen">
       <h1 className="text-3xl text-primary font-bold uppercase mb-10">
         Announcements
       </h1>
       <div className="flex justify-start items-center">
-        <div className="card shrink-0 w-full max-w-3xl bg-base-100">
+        <div className="card gap-1 shrink-0 w-full max-w-3xl bg-base-100">
           {announcements.map((announcement) => (
             <Announcement
               key={announcement._id}

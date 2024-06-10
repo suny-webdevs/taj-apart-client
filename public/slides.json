@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "img": "https://i.ibb.co/g7dcKk2/1.jpg",
+    "title": "Best Apartment",
+    "sub_title": "Taj apartment is will be your best choice. We take care of all all consumer of all their needs."
+  },
+  {
+    "id": 2,
+    "img": "https://i.ibb.co/0VDY3qK/5.jpg",
+    "title": "Premium Apartment",
+    "sub_title": "Taj apartment is will be your best choice. We take care of all all consumer of all their needs."
+  },
+  {
+    "id": 3,
+    "img": "https://i.ibb.co/GdSwRyY/8.jpg",
+    "title": "Luxury Apartment",
+    "sub_title": "Taj apartment is will be your best choice. We take care of all all consumer of all their needs."
+  },
+  {
+    "id": 4,
+    "img": "https://i.ibb.co/2jnVpQ0/10.jpg",
+    "title": "Best Deal",
+    "sub_title": "Taj apartment is will be your best choice. We take care of all all consumer of all their needs."
+  }
+]
