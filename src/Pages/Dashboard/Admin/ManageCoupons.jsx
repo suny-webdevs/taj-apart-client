@@ -3,9 +3,21 @@ import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import { AiFillCloseCircle } from "react-icons/ai"
 import useAxiosPublic from "../../../Hooks/useAxiosPublic"
 import toast from "react-hot-toast"
+import CouponModal from "../../../Component/Dashboard/Modal/CouponModal"
+import { useState } from "react"
 
 const ManageCoupons = () => {
   const axiosPublic = useAxiosPublic()
+
+  let [isOpen, setIsOpen] = useState(false)
+
+  function open() {
+    setIsOpen(true)
+  }
+
+  function close() {
+    setIsOpen(false)
+  }
 
   const {
     data: coupons = [],
@@ -60,9 +72,19 @@ const ManageCoupons = () => {
 
   return (
     <div className="p-6 w-full min-h-screen">
-      <h1 className="text-3xl text-primary font-bold">Create Coupons</h1>
+      <button
+        onClick={open}
+        className="px-6 py-2 bg-primary text-white rounded"
+      >
+        Create coupon
+      </button>
       <div>
-        <div className="card shrink-0 w-full bg-base-100">
+        <CouponModal
+          handleSaveCoupon={handleSaveCoupon}
+          isOpen={isOpen}
+          close={close}
+        />
+        {/* <div className="card shrink-0 w-full bg-base-100">
           <form
             onSubmit={handleSaveCoupon}
             className="card-body !p-5 md:flex-row md:items-center"
@@ -112,7 +134,7 @@ const ManageCoupons = () => {
               </button>
             </div>
           </form>
-        </div>
+        </div> */}
       </div>
       <div>
         <h1 className="text-3xl text-primary font-bold my-5">Manage coupons</h1>
