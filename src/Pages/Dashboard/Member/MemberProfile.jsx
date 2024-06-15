@@ -6,16 +6,15 @@ import useAgreement from "../../../Hooks/useAgreement"
 const MemberProfile = () => {
   const { user, loading } = useAuth()
   const [agreement] = useAgreement()
-  console.log(agreement)
 
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="w-full min-h-screen flex flex-col gap-1 p-5 justify-center items-center">
+    <div className="w-full min-h-screen flex flex-col p-5 justify-center items-center">
       <div className="w-full h-52 bg-primary rounded-md"></div>
       {/* Profile details */}
-      <div className="p-5 md:px-14 md:py-10 rounded-t-md w-full flex flex-col justify-center md:flex-row md:items-end gap-4 transform -translate-y-28">
-        <div className="p-2 border">
+      <div className="p-5 md:px-14 md:py-10 rounded-t-md w-full flex flex-col justify-start md:flex-row md:items-end gap-4 transform -translate-y-32">
+        <div className="p-2 md:border">
           <img
             src={user?.photoURL || avatar}
             className="w-40 h-40 object-cover rounded"
@@ -30,7 +29,7 @@ const MemberProfile = () => {
       </div>
 
       {/* Agreement details */}
-      <div className="border backdrop-blur-xl p-5 md:px-14 md:py-10 rounded-md space-y-2 w-full">
+      <div className="border backdrop-blur-xl p-5 md:px-14 md:py-10 rounded-md space-y-2 w-full transform -translate-y-24">
         <h1 className="text-3xl text-primary font-bold font-ostt mb-5">
           Agreement details
         </h1>
