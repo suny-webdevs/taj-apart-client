@@ -5,7 +5,6 @@ import toast from "react-hot-toast"
 import { format } from "date-fns"
 
 import { useLocation, useNavigate } from "react-router-dom"
-// import { useQuery } from "@tanstack/react-query"
 
 const Apartment = ({ apartment }) => {
   const { apartment_image, floor_no, block_name, apartment_no, rent_per_year } =
@@ -16,16 +15,6 @@ const Apartment = ({ apartment }) => {
 
   const navigate = useNavigate()
   const axiosPublic = useAxiosPublic()
-
-  // const { data: agreement = {} } = useQuery({
-  //   queryKey: ["agreement"],
-  //   queryFn: async () => {
-  //     const { data } = await axiosPublic(`/agreements/${user?.email}`)
-  //     return data
-  //   },
-  // })
-
-  // console.log(agreement)
 
   const handleAgreement = async (apartment) => {
     if (!user) {
@@ -86,7 +75,7 @@ const Apartment = ({ apartment }) => {
           <div className="mt-5 flex justify-center">
             <button
               onClick={() => handleAgreement(apartment)}
-              className="px-6 py-2 bg-primary hover:bg-[#d99b78] text-white rounded"
+              className="px-6 py-2 bg-primary hover:bg-primary-hover text-white rounded"
             >
               Agreement
             </button>

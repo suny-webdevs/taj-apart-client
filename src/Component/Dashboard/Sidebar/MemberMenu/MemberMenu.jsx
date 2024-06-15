@@ -13,7 +13,7 @@ const MemberMenu = () => {
         icon={FaCircleUser}
       />
       <MenuLinks
-        link={"/dashboard/payment"}
+        link={"/dashboard/make-payment"}
         label={"Make Payment"}
         icon={MdPayment}
       />

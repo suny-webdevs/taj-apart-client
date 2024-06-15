@@ -6,9 +6,12 @@ import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai"
 import toast from "react-hot-toast"
 import { format } from "date-fns"
+import useAgreementStatus from "../../../Hooks/useAgreementStatus"
 
 const AgreementRequests = () => {
   const axiosSecure = useAxiosSecure()
+  const [status] = useAgreementStatus()
+  console.log(status)
 
   const {
     data: agreements = [],

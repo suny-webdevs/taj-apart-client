@@ -49,7 +49,6 @@ const Login = () => {
         photo: user?.photoURL,
         role: "user",
       }
-      console.log(userInfo)
       // await putUser(userInfo)
       await axiosSecure.put("/users", userInfo)
 

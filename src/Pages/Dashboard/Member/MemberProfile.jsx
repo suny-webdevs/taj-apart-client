@@ -1,22 +1,11 @@
-import { useEffect, useState } from "react"
 import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import useAuth from "../../../Hooks/useAuth"
 import avatar from "/avatar.png"
-import useAxiosSecure from "../../../Hooks/useAxiosSecure"
+import useAgreement from "../../../Hooks/useAgreement"
 
 const MemberProfile = () => {
   const { user, loading } = useAuth()
-  const axiosSecure = useAxiosSecure()
-
-  const [agreement, setAgreement] = useState({})
-  useEffect(() => {
-    const getAgreement = async () => {
-      const { data } = await axiosSecure(`/agreements/${user?.email}`)
-      setAgreement(data)
-    }
-    getAgreement()
-  }, [axiosSecure, user?.email])
-
+  const [agreement] = useAgreement()
   console.log(agreement)
 
   if (loading) return <LoadingSpinner />
@@ -47,19 +36,28 @@ const MemberProfile = () => {
         </h1>
         <div className="pl-2">
           <p className="text-xl text-gray-500 font-normal">
-            Agreement accept date:{" "}
-            <span className="text-gray-700 font-bold">{"none"}</span>
+            Accept date:{" "}
+            <span className="text-gray-700 font-bold">
+              {agreement?.accept_date || "none"}
+            </span>
           </p>
           <p className="text-xl text-gray-500 font-normal">
-            Floor no: <span className="text-gray-700 font-bold">{"none"}</span>
+            Floor no:{" "}
+            <span className="text-gray-700 font-bold">
+              {agreement?.floor_no || "none"}
+            </span>
           </p>
           <p className="text-xl text-gray-500 font-normal">
             Block name:{" "}
-            <span className="text-gray-700 font-bold">{"none"}</span>
+            <span className="text-gray-700 font-bold">
+              {agreement?.block_name || "none"}
+            </span>
           </p>
           <p className="text-xl text-gray-500 font-normal">
             Apartment no:{" "}
-            <span className="text-gray-700 font-bold">{"none"}</span>
+            <span className="text-gray-700 font-bold">
+              {agreement?.apartment_no || "none"}
+            </span>
           </p>
         </div>
       </div>

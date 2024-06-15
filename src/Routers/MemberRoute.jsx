@@ -9,7 +9,7 @@ const MemberRoute = ({ children }) => {
   if (isLoading) return <LoadingSpinner />
   if (role === "member") return children
 
-  return <Navigate to={"/dashboard"} />
+  return <Navigate to={"/"} />
 }
 
 MemberRoute.propTypes = {

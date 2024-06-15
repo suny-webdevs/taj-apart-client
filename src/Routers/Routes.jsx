@@ -19,6 +19,7 @@ import AgreementRequests from "../Pages/Dashboard/Admin/AgreementRequests"
 import ManageCoupons from "../Pages/Dashboard/Admin/ManageCoupons"
 import MakePayment from "../Pages/Dashboard/Member/MakePayment"
 import PaymentHistory from "../Pages/Dashboard/Member/PaymentHistory"
+import Payment from "../Pages/Dashboard/Member/Payment"
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,16 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <MemberRoute>
               <MakePayment />
+            </MemberRoute>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "payment",
+        element: (
+          <PrivateRoute>
+            <MemberRoute>
+              <Payment />
             </MemberRoute>
           </PrivateRoute>
         ),
