@@ -5,20 +5,32 @@ import toast from "react-hot-toast"
 import { format } from "date-fns"
 
 import { useLocation, useNavigate } from "react-router-dom"
+// import { useQuery } from "@tanstack/react-query"
 
 const Apartment = ({ apartment }) => {
-  const { user } = useAuth()
-  const location = useLocation()
-
   const { apartment_image, floor_no, block_name, apartment_no, rent_per_year } =
     apartment
+
+  const { user } = useAuth()
+  const location = useLocation()
 
   const navigate = useNavigate()
   const axiosPublic = useAxiosPublic()
 
+  // const { data: agreement = {} } = useQuery({
+  //   queryKey: ["agreement"],
+  //   queryFn: async () => {
+  //     const { data } = await axiosPublic(`/agreements/${user?.email}`)
+  //     return data
+  //   },
+  // })
+
+  // console.log(agreement)
+
   const handleAgreement = async (apartment) => {
-    if (!user)
+    if (!user) {
       return navigate("/login", { state: location.pathname, replace: true })
+    }
 
     try {
       const agreementInfo = {
@@ -29,6 +41,7 @@ const Apartment = ({ apartment }) => {
         rent_per_year: apartment.rent_per_year,
         status: "pending",
         request_date: format(new Date(), "PPP"),
+        request_time: format(new Date(), "ppp"),
         payment_status: "unpaid",
         user_name: user?.displayName,
         user_email: user?.email,
@@ -36,6 +49,8 @@ const Apartment = ({ apartment }) => {
       const { data } = await axiosPublic.put("/agreements", agreementInfo)
       if (data.upsertedCount > 0) {
         toast.success("Agreement done, wait for confirmation of admin.")
+      } else {
+        toast.error("This agreement already in request")
       }
     } catch (error) {
       console.log(error.message)

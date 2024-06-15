@@ -23,7 +23,7 @@ const Slider = () => {
   }, [])
 
   return (
-    <div className="w-full h-[calc(100vh_-_63px)] mt-[63px]">
+    <div className="w-full h-[50vh] md:h-[calc(100vh_-_63px)] mt-[63px]">
       <Swiper
         style={{
           "--swiper-navigation-color": "#fff",
@@ -34,7 +34,7 @@ const Slider = () => {
           disableOnInteraction: false,
         }}
         slidesPerView={1}
-        spaceBetween={30}
+        spaceBetween={0}
         loop={true}
         pagination={{
           clickable: true,
@@ -45,11 +45,7 @@ const Slider = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <Slide
-              img={slide.img}
-              title={slide.title}
-              sub_title={slide.sub_tile}
-            />
+            <Slide slide={slide} />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -1,23 +1,25 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import useAuth from "../../../Hooks/useAuth"
 import avatar from "/avatar.png"
-import useAxiosPublic from "../../../Hooks/useAxiosPublic"
+import useAxiosSecure from "../../../Hooks/useAxiosSecure"
 
 const MemberProfile = () => {
-  const { user } = useAuth()
-  const [member, setMember] = useState([])
+  const { user, loading } = useAuth()
+  const axiosSecure = useAxiosSecure()
 
-  const axiosPublic = useAxiosPublic()
+  const [agreement, setAgreement] = useState({})
+  useEffect(() => {
+    const getAgreement = async () => {
+      const { data } = await axiosSecure(`/agreements/${user?.email}`)
+      setAgreement(data)
+    }
+    getAgreement()
+  }, [axiosSecure, user?.email])
 
-  const getMember = async () => {
-    const { data } = await axiosPublic(`/users/${user?.email}`)
-    console.log(data)
-  }
-  getMember()
+  console.log(agreement)
 
-  if (user?.role === "member") {
-    setMember(user)
-  }
+  if (loading) return <LoadingSpinner />
 
   return (
     <div className="w-full min-h-screen flex flex-col gap-1 p-5 justify-center items-center">
@@ -26,15 +28,15 @@ const MemberProfile = () => {
       <div className="p-5 md:px-14 md:py-10 rounded-t-md w-full flex flex-col justify-center md:flex-row md:items-end gap-4 transform -translate-y-28">
         <div className="p-2 border">
           <img
-            src={member?.photoURL || avatar}
+            src={user?.photoURL || avatar}
             className="w-40 h-40 object-cover rounded"
           />
         </div>
         <div className="flex flex-col">
           <span className="text-2xl md:text-3xl text-primary font-medium">
-            {member?.displayName}
+            {user?.displayName}
           </span>
-          <span className="text-lg">{member?.email}</span>
+          <span className="text-lg">{user?.email}</span>
         </div>
       </div>
 

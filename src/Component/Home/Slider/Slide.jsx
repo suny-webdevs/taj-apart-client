@@ -1,23 +1,25 @@
 import PropTypes from "prop-types"
 
-const Slide = ({ img, title, sub_title }) => {
+const Slide = ({ slide }) => {
   return (
     <div
-      style={{ backgroundImage: `url(${img})` }}
-      className="w-full h-screen bg-cover bg-center bg-no-repeat flex justify-start items-center"
+      style={{ backgroundImage: `url(${slide.img})` }}
+      className="w-full h-[80vh] md:h-screen bg-cover bg-center bg-no-repeat"
     >
-      <div className="z-10 w-full h-full bg-black bg-opacity-30">
-        <h1 className="text-3xl text-white font-ostt font-bold">{title}</h1>
-        <p>{sub_title}</p>
+      <div className="w-full h-[80vh] md:h-screen bg-black bg-opacity-60 flex flex-col justify-center items-center">
+        <h1 className="text-5xl md:text-8xl text-white font-ostt font-bold">
+          {slide.title}
+        </h1>
+        <p className="text-gray-200 text-base px-14 md:px-0">
+          {slide.sub_title}
+        </p>
       </div>
     </div>
   )
 }
 
 Slide.propTypes = {
-  img: PropTypes.string,
-  title: PropTypes.string,
-  sub_title: PropTypes.string,
+  slide: PropTypes.object,
 }
 
 export default Slide

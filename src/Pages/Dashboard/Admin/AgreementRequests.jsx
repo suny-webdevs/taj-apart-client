@@ -5,6 +5,7 @@ import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai"
 import toast from "react-hot-toast"
+import { format } from "date-fns"
 
 const AgreementRequests = () => {
   const axiosSecure = useAxiosSecure()
@@ -23,22 +24,33 @@ const AgreementRequests = () => {
 
   const handleAccept = async (agreement) => {
     try {
-      const { data: user } = await axiosSecure(`/users/${agreement.user.email}`)
-      console.log(user)
-      const updateInfo = {
-        email: user.email,
-        role: "member",
-      }
-      await axiosSecure.put("/users", updateInfo)
-
-      const updateStatus = {
-        email: agreement.user.email,
+      const updateAgreement = {
+        apartment_no: agreement.apartment_no,
+        user_email: agreement.user_email,
         status: "checked",
+        accept_date: format(new Date(), "PPP"),
       }
-      await axiosSecure.put("/agreements", updateStatus)
 
+      const { data: updateStatus } = await axiosSecure.put(
+        "/agreements",
+        updateAgreement
+      )
+      console.log(updateStatus)
       refetch()
-      toast.success("Agreement checked successfully!")
+      if (updateStatus.modifiedCount > 0) {
+        const updateUser = {
+          email: agreement.user_email,
+          role: "member",
+        }
+
+        const { data } = await axiosSecure.put(
+          `/users/${agreement.user_email}`,
+          updateUser
+        )
+        console.log(data)
+        toast.success("Agreement is checked!")
+        refetch()
+      }
     } catch (error) {
       console.log(error.message)
     }
@@ -58,7 +70,7 @@ const AgreementRequests = () => {
   if (isLoading) return <LoadingSpinner />
 
   return (
-    <div className="z-10 px-10">
+    <div className="z-10 px-2 md:px-10">
       <Helmet>
         <title>Agreements Requests | Taj Apart</title>
       </Helmet>
@@ -77,7 +89,7 @@ const AgreementRequests = () => {
                 <th>Floor No</th>
                 <th>Block Name</th>
                 <th>Apartment No</th>
-                <th>Rent</th>
+                <th>Rent/Year</th>
                 <th>Request Date</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -88,13 +100,13 @@ const AgreementRequests = () => {
               {agreements.map((agreement, index) => (
                 <tr key={agreement._id}>
                   <th>{index + 1}</th>
-                  <td>{agreement?.user?.name}</td>
-                  <td>{agreement?.user?.email}</td>
-                  <td>{agreement.floor_no}</td>
-                  <td>{agreement.block_name}</td>
-                  <td>{agreement.apartment_no}</td>
-                  <td>${agreement.rent_per_year}</td>
-                  <td>{agreement.request_date}</td>
+                  <td>{agreement?.user_name}</td>
+                  <td>{agreement?.user_email}</td>
+                  <td>{agreement?.floor_no}</td>
+                  <td>{agreement?.block_name}</td>
+                  <td>{agreement?.apartment_no}</td>
+                  <td>${agreement?.rent_per_year}</td>
+                  <td>{agreement?.request_date}</td>
                   <td>
                     <span
                       className={`${
@@ -114,7 +126,7 @@ const AgreementRequests = () => {
                     >
                       <button
                         onClick={() => handleAccept(agreement)}
-                        className="text-2xl text-success"
+                        className="text-2xl text-success disabled:text-gray-500"
                       >
                         <AiFillCheckCircle />
                       </button>
