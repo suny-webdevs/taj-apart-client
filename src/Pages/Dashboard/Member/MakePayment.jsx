@@ -1,146 +1,222 @@
-import { useNavigate } from "react-router-dom"
+import { Helmet } from "react-helmet-async"
 import useAgreement from "../../../Hooks/useAgreement"
-import { BsCurrencyDollar } from "react-icons/bs"
+import { useEffect, useState } from "react"
+import { FaArrowRightLong } from "react-icons/fa6"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form"
+import useAuth from "../../../Hooks/useAuth"
+import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 
 const MakePayment = () => {
-  const [agreement] = useAgreement()
+  const { setPreview } = useAuth()
+  const [agreement, agreementLoading] = useAgreement()
+
   const navigate = useNavigate()
 
-  const handlePayment = async (e) => {
-    e.preventDefault()
+  const [months, setMonths] = useState([])
 
-    const form = e.target
-    const user_email = form.email.value
-    const floor_no = form.floor.value
-    const block_name = form.block.value
-    const apartment_no = form.apartment.value
-    const rent_per_month = form.rent.value
-    const month = form.month.value
+  // console.log(preview)
 
-    const paymentInfo = {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  useEffect(() => {
+    getMonth()
+  }, [])
+  const getMonth = async () => {
+    const { data } = await axios.get("/months.json")
+    return setMonths(data)
+  }
+
+  const handleSubmitPayment = async ({
+    user_email,
+    floor_no,
+    block_name,
+    apartment_no,
+    rent_per_year,
+    rent_per_month,
+    month,
+  }) => {
+    const previewInfo = {
       user_email,
       floor_no,
       block_name,
       apartment_no,
-      rent_per_month: parseFloat(rent_per_month),
+      rent_per_year,
+      rent_per_month,
       month,
     }
 
-    console.log(paymentInfo)
+    setPreview(previewInfo)
+    navigate("/dashboard/payment")
+
+    // const { data } = await axiosPublic.post("/payments  ", previewInfo)
+    // if (data.insertedId) {
+    //   toast.success("preview saved")
+    //   navigate("/dashboard/payment")
+    // }
+    // if (data.isExist) {
+    //   return toast.error("Already paid in this month!")
+    // }
   }
 
+  const currentYear = new Date().getFullYear()
+
+  if (agreementLoading) return <LoadingSpinner />
+
   return (
-    <div className="p-5">
-      <h1 className="text-4xl text-primary uppercase font-bold">
+    <div className="p-5 w-full">
+      <Helmet>
+        <title>Make Payment</title>
+      </Helmet>
+      <h1 className="text-3xl text-primary font-bold uppercase">
         make payment
       </h1>
-      <div className="card shrink-0 w-full max-w-5xl border bg-base-100 mt-10">
+      <div className="card bg-base-100 w-full md:max-w-3xl shrink-0">
         <form
-          onSubmit={handlePayment}
-          className="card-body grid grid-cols-1 md:grid-cols-2 gap-5"
+          onSubmit={handleSubmit(handleSubmitPayment)}
+          className="card-body grid grid-cols-1 md:grid-cols-2 gap-3"
         >
           <div className="form-control">
-            <label className="label">
+            <label
+              htmlFor="user_email"
+              className="label"
+            >
               <span className="label-text">Email</span>
             </label>
             <input
               type="email"
-              name="email"
-              readOnly
+              placeholder="Email"
               defaultValue={agreement?.user_email}
-              placeholder="Your email"
+              {...register("user_email")}
               className="input input-bordered"
+              readOnly={true}
               required
             />
           </div>
           <div className="form-control">
-            <label className="label">
+            <label
+              htmlFor="floor_no"
+              className="label"
+            >
               <span className="label-text">Floor No</span>
             </label>
             <input
               type="text"
-              name="floor"
-              readOnly
+              placeholder="Floor number"
               defaultValue={agreement?.floor_no}
-              placeholder="Your floor number"
+              {...register("floor_no")}
               className="input input-bordered"
+              readOnly
               required
             />
           </div>
           <div className="form-control">
-            <label className="label">
+            <label
+              htmlFor="block_name"
+              className="label"
+            >
               <span className="label-text">Block Name</span>
             </label>
             <input
               type="text"
-              name="block"
+              placeholder="Block name"
               defaultValue={agreement?.block_name}
-              placeholder="Your block name"
+              {...register("block_name")}
               className="input input-bordered"
               readOnly
               required
             />
           </div>
           <div className="form-control">
-            <label className="label">
+            <label
+              htmlFor="apartment_no"
+              className="label"
+            >
               <span className="label-text">Apartment No</span>
             </label>
             <input
               type="text"
-              name="apartment"
+              placeholder="Apartment no"
               defaultValue={agreement?.apartment_no}
-              placeholder="Your apartment number"
+              {...register("apartment_no")}
               className="input input-bordered"
               readOnly
               required
             />
           </div>
           <div className="form-control">
-            <label className="label">
-              <span className="label-text">Rent Per Month</span>
+            <label
+              htmlFor="rent_per_year"
+              className="label"
+            >
+              <span className="label-text">Rent per year ($)</span>
             </label>
-            <label className="input input-bordered flex items-center gap-1">
-              <BsCurrencyDollar className="text-xl" />
-              <input
-                type="number"
-                name="rent"
-                readOnly
-                value={parseFloat((agreement?.rent_per_year / 12).toFixed(2))}
-                placeholder="Your rent per month"
-                className="grow"
-                required
-              />
-            </label>
+            <input
+              type="number"
+              placeholder="Rent per year"
+              value={agreement?.rent_per_year}
+              {...register("rent_per_year")}
+              className="input input-bordered"
+              readOnly
+              required
+            />
           </div>
           <div className="form-control">
-            <label className="label">
-              <span className="label-text">Month</span>
+            <label
+              htmlFor="rent_per_month"
+              className="label"
+            >
+              <span className="label-text">Rent per month ($)</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Rent per month"
+              value={(agreement?.rent_per_year / 12).toFixed(2)}
+              {...register("rent_per_month")}
+              className="input input-bordered"
+              readOnly
+              required
+            />
+          </div>
+          <div className="form-control md:col-span-2">
+            <label
+              htmlFor="month"
+              className="label"
+            >
+              <span className="label-text">Select month</span>
             </label>
             <select
-              name="month"
-              className="select select-bordered w-full"
+              {...register("month", { required: true })}
+              className="select select-bordered text-base"
               required
             >
-              <option defaultValue="Select month">Select month</option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
+              <option
+                disabled
+                value={""}
+              >
+                Select month
+              </option>
+              <>
+                {months.map((month, index) => (
+                  <option
+                    key={index}
+                    value={`${month?.value} - ${currentYear}`}
+                  >
+                    {month?.label} - {currentYear}
+                  </option>
+                ))}
+              </>
             </select>
+            {errors.month && <span className="text-error">Select a month</span>}
           </div>
           <div className="form-control mt-6 md:col-span-2">
-            <button
-              onClick={() => navigate("/dashboard/payment")}
-              className="bg-primary hover:bg-primary-hover text-white py-3 rounded-md"
-            >
-              Pay
+            <button className="px-6 py-3 text-white bg-primary rounded-md uppercase flex gap-2 items-center justify-center">
+              Next <FaArrowRightLong />
             </button>
           </div>
         </form>

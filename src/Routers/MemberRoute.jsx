@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import LoadingSpinner from "../Component/Shared/LoadingSpinner"
 import { Navigate } from "react-router-dom"
-import useRole from "../Hooks/useRole"
+import useRole from "../Hooks/useRole.jsx"
 
 const MemberRoute = ({ children }) => {
   const [role, isLoading] = useRole()
@@ -13,7 +13,7 @@ const MemberRoute = ({ children }) => {
 }
 
 MemberRoute.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
 }
 
 export default MemberRoute

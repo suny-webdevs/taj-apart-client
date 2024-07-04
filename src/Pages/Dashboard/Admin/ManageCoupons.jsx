@@ -42,7 +42,7 @@ const ManageCoupons = () => {
     try {
       const savedInfo = {
         desc,
-        code,
+        code: code.toLowerCase(),
         discount,
       }
       const { data } = await axiosPublic.post("/coupons", savedInfo)

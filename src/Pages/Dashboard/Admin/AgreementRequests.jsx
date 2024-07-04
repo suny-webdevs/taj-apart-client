@@ -6,12 +6,9 @@ import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai"
 import toast from "react-hot-toast"
 import { format } from "date-fns"
-import useAgreementStatus from "../../../Hooks/useAgreementStatus"
 
 const AgreementRequests = () => {
   const axiosSecure = useAxiosSecure()
-  const [status] = useAgreementStatus()
-  console.log(status)
 
   const {
     data: agreements = [],
@@ -26,6 +23,11 @@ const AgreementRequests = () => {
   })
 
   const handleAccept = async (agreement) => {
+    if (agreement.status === "checked") {
+      return toast.error("Agreement already accepted!", {
+        position: "bottom-center",
+      })
+    }
     try {
       const updateAgreement = {
         apartment_no: agreement.apartment_no,
@@ -38,7 +40,6 @@ const AgreementRequests = () => {
         "/agreements",
         updateAgreement
       )
-      console.log(updateStatus)
       refetch()
       if (updateStatus.modifiedCount > 0) {
         const updateUser = {
@@ -46,11 +47,7 @@ const AgreementRequests = () => {
           role: "member",
         }
 
-        const { data } = await axiosSecure.put(
-          `/users/${agreement.user_email}`,
-          updateUser
-        )
-        console.log(data)
+        await axiosSecure.put(`/users/${agreement.user_email}`, updateUser)
         toast.success("Agreement is checked!")
         refetch()
       }

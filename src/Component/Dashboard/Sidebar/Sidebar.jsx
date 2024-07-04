@@ -9,7 +9,7 @@ import toast from "react-hot-toast"
 
 import MenuLinks from "./MenuLinks/MenuLinks"
 import useAuth from "../../../Hooks/useAuth"
-import useRole from "../../../Hooks/useRole"
+import useRole from "../../../Hooks/useRole.jsx"
 import UserMenu from "./UserMenu/UserMenu"
 import MemberMenu from "./MemberMenu/MemberMenu"
 import AdminMenu from "./AdminMEnu/AdminMenu"

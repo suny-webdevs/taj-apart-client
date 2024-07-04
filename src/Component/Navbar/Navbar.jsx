@@ -9,7 +9,7 @@ import { PiBuildingFill } from "react-icons/pi"
 
 import useAuth from "../../Hooks/useAuth"
 import toast from "react-hot-toast"
-import useRole from "../../Hooks/useRole"
+import useRole from "../../Hooks/useRole.jsx"
 
 const Navbar = () => {
   const { user, userSignOut } = useAuth()

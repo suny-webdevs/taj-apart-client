@@ -1,7 +1,7 @@
 import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import useAuth from "../../../Hooks/useAuth"
 import avatar from "/avatar.png"
-import useAgreement from "../../../Hooks/useAgreement"
+import useAgreement from "../../../Hooks/useAgreement.jsx"
 
 const MemberProfile = () => {
   const { user, loading } = useAuth()
