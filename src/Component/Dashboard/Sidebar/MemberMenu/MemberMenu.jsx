@@ -8,7 +8,7 @@ const MemberMenu = () => {
   return (
     <>
       <MenuLinks
-        link={"/dashboard/member"}
+        link={"/dashboard"}
         label={"My Profile"}
         icon={FaCircleUser}
       />

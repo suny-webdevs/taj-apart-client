@@ -53,15 +53,6 @@ const MakePayment = () => {
 
     setPreview(previewInfo)
     navigate("/dashboard/payment")
-
-    // const { data } = await axiosPublic.post("/payments  ", previewInfo)
-    // if (data.insertedId) {
-    //   toast.success("preview saved")
-    //   navigate("/dashboard/payment")
-    // }
-    // if (data.isExist) {
-    //   return toast.error("Already paid in this month!")
-    // }
   }
 
   const currentYear = new Date().getFullYear()

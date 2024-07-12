@@ -9,12 +9,16 @@ const Payment = () => {
   const axiosPublic = useAxiosPublic()
 
   const [coupon, setCoupon] = useState("")
-  const [discount, setDiscount] = useState(0)
+  const [totalAmount, setTotalAmount] = useState(
+    parseFloat(preview?.rent_per_month).toFixed(2)
+  )
 
+  // Take coupon code
   const handleCouponChange = (e) => {
     setCoupon(e.target.value)
   }
 
+  // Verify and submit coupon
   const handleCouponSubmit = async (e) => {
     e.preventDefault()
 
@@ -22,17 +26,32 @@ const Payment = () => {
       const { data } = await axiosPublic.post("/verify-coupon", {
         code: coupon,
       })
-      if (data.success) {
-        setDiscount(data?.discount)
+
+      if (data.valid) {
+        calcTotalAmount(
+          parseInt(preview?.rent_per_month),
+          parseInt(data?.discount)
+        )
+        toast.success("Coupon claimed")
       } else {
+        calcTotalAmount(parseInt(preview?.rent_per_month), 0)
         toast.error(data.message)
       }
     } catch (error) {
       console.log(error.message)
     }
 
-    toast.success("Coupon claimed")
     setCoupon("")
+  }
+
+  // Calculate discounted amount
+  const calcTotalAmount = (amount, discount) => {
+    const total = amount * (discount / 100)
+    if (discount === 0) {
+      setTotalAmount(amount.toFixed(2))
+    } else {
+      setTotalAmount(total.toFixed(2))
+    }
   }
 
   return (
@@ -44,13 +63,13 @@ const Payment = () => {
         <p className="font-medium tracking-wide">
           Month :{" "}
           <span className="font-mono font-semibold tracking-normal text-lg ml-1">
-            {preview?.month}
+            {preview?.month || "[Payment month]"}
           </span>
         </p>
         <p className="font-medium tracking-wide">
           Payable Rent Amount :{" "}
           <span className="font-mono font-semibold text-lg ml-1">
-            ${preview?.rent_per_month}
+            ${preview?.rent_per_month || 0}
           </span>
         </p>
         <form
@@ -83,16 +102,11 @@ const Payment = () => {
         <p className="text-2xl font-bold tracking-wide text-primary">
           Total Amount :{" "}
           <span className="font-mono font-semibold text-2xl ml-1">
-            $
-            {discount
-              ? parseFloat(
-                  preview?.rent_per_month * (parseInt(discount) / 100)
-                ).toFixed(2)
-              : preview?.rent_per_month}
+            ${totalAmount}
           </span>
         </p>
         <button className="py-3 bg-primary text-white text-base font-medium rounded-md mt-5 flex items-center justify-center gap-2">
-          <FaRegCreditCard className="text-xl" /> Pay
+          <FaRegCreditCard className="text-xl" /> Pay Now
         </button>
       </div>
     </div>

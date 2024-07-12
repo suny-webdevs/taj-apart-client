@@ -8,7 +8,7 @@ const AdminMenu = () => {
   return (
     <>
       <MenuLinks
-        link={"/dashboard/admin"}
+        link={"/dashboard"}
         label={"My Profile"}
         icon={FaCircleUser}
       />
