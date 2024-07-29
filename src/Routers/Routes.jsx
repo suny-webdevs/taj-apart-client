@@ -68,7 +68,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "make-payment",
+        path: "m/make-payment",
         element: (
           <PrivateRoute>
             <MemberRoute>
@@ -78,7 +78,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "payment",
+        path: "m/payment",
         element: (
           <PrivateRoute>
             <MemberRoute>
@@ -88,7 +88,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "payment-history",
+        path: "m/payment-history",
         element: (
           <PrivateRoute>
             <MemberRoute>
@@ -100,7 +100,7 @@ const router = createBrowserRouter([
 
       // Admin routes
       {
-        index: true,
+        path: "admin",
         element: (
           <PrivateRoute>
             <AdminRoute>
@@ -110,7 +110,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "manage-members",
+        path: "a/manage-members",
         element: (
           <PrivateRoute>
             <AdminRoute>
@@ -120,7 +120,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "make-announcement",
+        path: "a/make-announcement",
         element: (
           <PrivateRoute>
             <AdminRoute>
@@ -130,7 +130,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "agreement-requests",
+        path: "a/agreement-requests",
         element: (
           <PrivateRoute>
             <AdminRoute>
@@ -140,7 +140,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "manage-coupons",
+        path: "a/manage-coupons",
         element: (
           <PrivateRoute>
             <AdminRoute>

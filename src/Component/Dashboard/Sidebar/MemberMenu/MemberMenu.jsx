@@ -13,12 +13,12 @@ const MemberMenu = () => {
         icon={FaCircleUser}
       />
       <MenuLinks
-        link={"/dashboard/make-payment"}
+        link={"/dashboard/m/make-payment"}
         label={"Make Payment"}
         icon={MdPayment}
       />
       <MenuLinks
-        link={"/dashboard/payment-history"}
+        link={"/dashboard/m/payment-history"}
         label={"Payment History"}
         icon={FaHistory}
       />

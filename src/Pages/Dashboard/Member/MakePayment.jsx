@@ -52,7 +52,7 @@ const MakePayment = () => {
     }
 
     setPreview(previewInfo)
-    navigate("/dashboard/payment")
+    navigate("/dashboard/m/payment")
   }
 
   const currentYear = new Date().getFullYear()
@@ -67,7 +67,7 @@ const MakePayment = () => {
       <h1 className="text-3xl text-primary font-bold uppercase">
         make payment
       </h1>
-      <div className="card bg-base-100 w-full md:max-w-3xl shrink-0">
+      <div className="card bg-base-100 w-full shrink-0">
         <form
           onSubmit={handleSubmit(handleSubmitPayment)}
           className="card-body grid grid-cols-1 md:grid-cols-2 gap-3"

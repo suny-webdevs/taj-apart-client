@@ -2,10 +2,12 @@ import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import useAuth from "../../../Hooks/useAuth"
 import avatar from "/avatar.png"
 import useAgreement from "../../../Hooks/useAgreement.jsx"
+import useRole from "../../../Hooks/useRole.jsx"
 
 const MemberProfile = () => {
   const { user, loading } = useAuth()
   const [agreement] = useAgreement()
+  const [role] = useRole()
 
   if (loading) return <LoadingSpinner />
 
@@ -24,7 +26,9 @@ const MemberProfile = () => {
           <span className="text-2xl md:text-3xl text-primary font-medium">
             {user?.displayName}
           </span>
-          <span className="text-lg">{user?.email}</span>
+          <span className="text-lg">
+            {user?.email} {role === "admin" ? "(Admin)" : "(Member)"}
+          </span>
         </div>
       </div>
 

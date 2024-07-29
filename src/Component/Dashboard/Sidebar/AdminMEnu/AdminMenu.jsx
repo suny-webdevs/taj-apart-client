@@ -8,27 +8,27 @@ const AdminMenu = () => {
   return (
     <>
       <MenuLinks
-        link={"/dashboard"}
+        link={"/dashboard/admin"}
         label={"My Profile"}
         icon={FaCircleUser}
       />
       <MenuLinks
-        link={"/dashboard/manage-members"}
+        link={"/dashboard/a/manage-members"}
         label={"Manage Members"}
         icon={FaUsers}
       />
       <MenuLinks
-        link={"/dashboard/make-announcement"}
+        link={"/dashboard/a/make-announcement"}
         label={"Make Announcement"}
         icon={GrAnnounce}
       />
       <MenuLinks
-        link={"/dashboard/agreement-requests"}
+        link={"/dashboard/a/agreement-requests"}
         label={"Agreement Requests"}
         icon={GrDocumentTime}
       />
       <MenuLinks
-        link={"/dashboard/manage-coupons"}
+        link={"/dashboard/a/manage-coupons"}
         label={"Manage Coupons"}
         icon={RiCoupon3Fill}
       />

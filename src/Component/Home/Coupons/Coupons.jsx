@@ -16,9 +16,7 @@ const Coupons = () => {
 
   return (
     <div
-      className={`container mx-auto px-2 md:px-20 w-full min-h-[50vh] mt-2 pt-20 grid grid-cols-1 ${
-        coupons.length > 1 && "md:grid-cols-2"
-      } gap-10`}
+      className={`container mx-auto px-2 md:px-20 w-full min-h-[50vh] mt-2 pt-20 grid grid-cols-1 gap-10`}
     >
       {coupons.map((coupon) => (
         <CouponCard

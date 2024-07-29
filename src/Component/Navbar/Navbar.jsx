@@ -76,7 +76,7 @@ const Navbar = () => {
         )}
         {role === "admin" && (
           <NavLink
-            to="/dashboard"
+            to="/dashboard/admin"
             className="text-base flex items-center gap-2"
           >
             <MdDashboard className="text-xl" /> Dashboard
