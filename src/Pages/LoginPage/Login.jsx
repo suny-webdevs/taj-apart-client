@@ -5,16 +5,26 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import SocialLogin from "../../Component/Shared/SocialLogin"
 import useAxiosSecure from "../../Hooks/useAxiosSecure"
+import useRole from "../../Hooks/useRole"
 
 const Login = () => {
   const { userSignIn, googleSignIn } = useAuth()
+  const [role] = useRole()
 
   const axiosSecure = useAxiosSecure()
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  const redirect = location?.state || "/"
+  const redirect =
+    location?.state ||
+    `${
+      role === "user"
+        ? "/dashboard/u"
+        : role === "admin"
+        ? "/dashboard/a"
+        : "/dashboard/m"
+    }`
 
   // Form login
   const handleSignIn = async (e) => {

@@ -8,12 +8,22 @@ import SocialLogin from "../../Component/Shared/SocialLogin"
 import { imageUpload } from "../../Utilities"
 import "./styles.css"
 import useAxiosSecure from "../../Hooks/useAxiosSecure"
+import useRole from "../../Hooks/useRole"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, googleSignIn } = useAuth()
   const axiosSecure = useAxiosSecure()
+  const [role] = useRole()
 
   const navigate = useNavigate()
+
+  const redirectPage = `${
+    role === "user"
+      ? "/dashboard/u"
+      : role === "admin"
+      ? "/dashboard/a"
+      : "/dashboard/m"
+  }`
 
   const {
     register,
@@ -38,7 +48,7 @@ const SignUp = () => {
       await axiosSecure.put("/users", userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
-      navigate("/")
+      navigate(redirectPage)
       // }
     } catch (err) {
       console.log(err.message)
@@ -65,7 +75,7 @@ const SignUp = () => {
       await axiosSecure("/users", userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
-      navigate("/")
+      navigate(redirectPage)
       // }
     } catch (error) {
       console.log(error.message)

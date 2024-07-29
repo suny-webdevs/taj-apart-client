@@ -60,7 +60,7 @@ const Navbar = () => {
       <li className="mt-4">
         {role === "user" && (
           <NavLink
-            to="/dashboard"
+            to="/dashboard/u"
             className="text-base flex items-center gap-2"
           >
             <MdDashboard className="text-xl" /> Dashboard
@@ -68,7 +68,7 @@ const Navbar = () => {
         )}
         {role === "member" && (
           <NavLink
-            to="/dashboard"
+            to="/dashboard/m"
             className="text-base flex items-center gap-2"
           >
             <MdDashboard className="text-xl" /> Dashboard
@@ -76,7 +76,7 @@ const Navbar = () => {
         )}
         {role === "admin" && (
           <NavLink
-            to="/dashboard/admin"
+            to="/dashboard/a"
             className="text-base flex items-center gap-2"
           >
             <MdDashboard className="text-xl" /> Dashboard

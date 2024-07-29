@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
+        path: `u`,
         element: (
           <PrivateRoute>
             <UserProfile />
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
 
       // Member routes
       {
-        index: true,
+        path: `m`,
         element: (
           <PrivateRoute>
             <MemberRoute>
@@ -100,7 +100,7 @@ const router = createBrowserRouter([
 
       // Admin routes
       {
-        path: "admin",
+        path: `a`,
         element: (
           <PrivateRoute>
             <AdminRoute>
