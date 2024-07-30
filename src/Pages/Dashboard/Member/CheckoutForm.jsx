@@ -65,7 +65,7 @@ const CheckoutForm = ({ totalAmount }) => {
       <button
         type="submit"
         disabled={!stripe}
-        className="py-2 px-7 bg-primary text-white text-base font-medium rounded-md mt-5 flex items-center justify-center gap-2"
+        className="py-2 px-7 bg-secondary hover:bg-primary text-primary hover:text-secondary text-base font-bold rounded-md mt-5 flex items-center justify-center gap-2 transition-colors duration-150"
       >
         <FaRegCreditCard className="text-lg" /> Pay{" "}
         <span className="ml-1">${totalAmount || 0}</span>

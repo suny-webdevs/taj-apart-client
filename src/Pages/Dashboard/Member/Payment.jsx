@@ -17,7 +17,7 @@ const Payment = () => {
   const [disableCoupon, setDisableCoupon] = useState(false)
   const [discount, setDiscount] = useState(0)
   const [totalAmount, setTotalAmount] = useState(
-    parseFloat(parseFloat(preview?.rent_per_month).toFixed(2))
+    parseFloat(preview?.rent_per_month).toFixed(2)
   )
 
   // Take coupon code
@@ -91,7 +91,7 @@ const Payment = () => {
       <h1 className="text-4xl text-primary uppercase font-bold">
         payment here
       </h1>
-      <div className="card-body w-full mt-5">
+      <div className="w-full mt-5">
         <div className="border rounded-xl p-5">
           <p className="font-medium tracking-wide">
             Name :{" "}
@@ -154,7 +154,7 @@ const Payment = () => {
           )}
           <p className="text-2xl font-bold tracking-wide text-primary">
             Total Amount :{" "}
-            <span className="font-semibold text-2xl ml-1">
+            <span className="font-bold text-2xl ml-1">
               ${totalAmount}{" "}
               {disableCoupon && (
                 <span className="text-base ml-2 text-secondary">{`(${discount}% discount claimed)`}</span>
@@ -162,7 +162,7 @@ const Payment = () => {
             </span>
           </p>
         </div>
-        <div className="mt-5 w-full border p-5 rounded-xl">
+        <div className="mt-2 w-full border p-5 rounded-xl">
           {clientSecret && (
             <Elements
               options={options}
