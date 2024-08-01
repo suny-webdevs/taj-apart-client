@@ -1,11 +1,11 @@
 import useAuth from "../../../Hooks/useAuth"
-import useRole from "../../../Hooks/useRole"
+// import useRole from "../../../Hooks/useRole"
 import avatar from "/avatar.png"
-import verify from "../../../assets/blue-tick.png"
+// import verify from "../../../assets/blue-tick.png"
 
 const UserProfile = () => {
   const { user } = useAuth()
-  const [role] = useRole()
+  // const [role] = useRole()
 
   return (
     <div className="flex justify-center items-center w-full h-screen p-5">
@@ -14,19 +14,19 @@ const UserProfile = () => {
           <div className="flex justify-center">
             <img
               src={user?.photoURL || avatar}
-              className="w-40 h-40 object-cover rounded-md border p-2"
+              className="w-40 h-40 object-cover rounded-full border-4 p-2"
             />
           </div>
           <div className="flex flex-col items-center mt-5">
             <span className="text-2xl md:text-3xl text-primary font-medium flex items-center gap-2">
               {user?.displayName}
-              {role === "member" && (
+              {/* {role === "member" && (
                 <img
                   src={verify}
                   width="25px"
                   height="25px"
                 />
-              )}
+              )} */}
             </span>
             <span className="text-lg">{user?.email} </span>
           </div>

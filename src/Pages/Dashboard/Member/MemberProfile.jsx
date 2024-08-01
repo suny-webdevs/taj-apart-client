@@ -2,14 +2,14 @@ import LoadingSpinner from "../../../Component/Shared/LoadingSpinner"
 import useAuth from "../../../Hooks/useAuth"
 import avatar from "/avatar.png"
 import useAgreement from "../../../Hooks/useAgreement.jsx"
-import useRole from "../../../Hooks/useRole.jsx"
-import verify from "../../../assets/blue-tick.png"
+// import useRole from "../../../Hooks/useRole.jsx"
+// import verify from "../../../assets/blue-tick.png"
 
 const MemberProfile = () => {
   const { user, loading } = useAuth()
   const [agreement] = useAgreement()
-  const [role] = useRole()
-  console.log(agreement)
+  // const [role] = useRole()
+
   if (loading) return <LoadingSpinner />
 
   return (
@@ -19,19 +19,19 @@ const MemberProfile = () => {
           <div className="flex justify-center">
             <img
               src={user?.photoURL || avatar}
-              className="w-40 h-40 object-cover rounded-md border p-2"
+              className="w-40 h-40 object-cover rounded-full border-4 border-primary p-2"
             />
           </div>
           <div className="flex flex-col items-center mt-5">
             <span className="text-2xl md:text-3xl text-primary font-medium flex items-center gap-2">
               {user?.displayName}
-              {role === "member" && (
+              {/* {role === "member" && (
                 <img
                   src={verify}
                   width="25px"
                   height="25px"
                 />
-              )}
+              )} */}
             </span>
             <span className="text-lg">{user?.email} </span>
           </div>

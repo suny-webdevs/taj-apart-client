@@ -68,6 +68,7 @@ const Sidebar = () => {
         } md:translate-x-0 transition duration-200 ease-in-out`}
       >
         <div>
+          {/* Site Logo */}
           <Link
             to="/"
             className="flex items-center gap-3"
@@ -80,7 +81,9 @@ const Sidebar = () => {
               taj apart
             </span>
           </Link>
-          <nav className="flex flex-col mt-10 pl-2">
+
+          {/* Nav Menu */}
+          <nav className="flex flex-col -space-y-2 mt-10 pl-2">
             {/* Dynamic nav */}
             {role === "user" && <UserMenu />}
             {role === "member" && <MemberMenu />}
@@ -88,7 +91,7 @@ const Sidebar = () => {
           </nav>
         </div>
         <div>
-          <nav className="flex flex-col pl-2">
+          <nav className="flex flex-col -space-y-2 pl-2">
             <MenuLinks
               link={"/"}
               label={"Home"}

@@ -87,7 +87,7 @@ const Payment = () => {
   }
 
   return (
-    <div className="p-5">
+    <div className="p-2 md:p-5">
       <h1 className="text-4xl text-primary uppercase font-bold">
         payment here
       </h1>

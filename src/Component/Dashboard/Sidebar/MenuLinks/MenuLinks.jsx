@@ -8,8 +8,8 @@ const MenuLinks = ({ link, label, icon: Icon }) => {
       end
       className={({ isActive }) =>
         isActive
-          ? "text-primary py-2 flex items-center gap-3"
-          : "text-white hover:text-primary py-2 flex items-center gap-3"
+          ? "text-white font-medium py-2 flex items-center gap-3"
+          : "text-primary hover:text-white font-medium py-2 flex items-center gap-3"
       }
     >
       <Icon className="text-xl" /> {label}

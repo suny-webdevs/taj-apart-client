@@ -26,7 +26,7 @@ More info: https://stripe.com/docs/stripe-js/reference#element-options
 .StripeElementFpx {
   display: block;
   margin: 10px 0 20px 0;
-  max-width: 60%;
+  max-width: 70%;
   padding: 15px 14px;
   box-shadow: rgba(50, 50, 93, 0.14902) 0px 1px 3px,
     rgba(0, 0, 0, 0.0196078) 0px 1px 0px;
@@ -58,4 +58,14 @@ More info: https://stripe.com/docs/stripe-js/reference#element-options
 .StripeElementEPS,
 .StripeElementFpx {
   padding: 0;
+}
+
+@media screen and (max-width: 640px) {
+  .StripeElement,
+  .StripeElementIdeal,
+  .StripeElementP24,
+  .StripeElementEPS,
+  .StripeElementFpx {
+    max-width: 100%;
+  }
 }
