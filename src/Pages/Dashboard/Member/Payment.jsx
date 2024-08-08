@@ -15,6 +15,7 @@ const Payment = () => {
 
   const [coupon, setCoupon] = useState("")
   const [disableCoupon, setDisableCoupon] = useState(false)
+  const [invalidCoupon, setInvalidCoupon] = useState(false)
   const [discount, setDiscount] = useState(0)
   const [totalAmount, setTotalAmount] = useState(
     parseFloat(preview?.rent_per_month).toFixed(2)
@@ -36,12 +37,14 @@ const Payment = () => {
 
       if (data.valid) {
         setDiscount(parseInt(data?.discount))
+        setDisableCoupon(true)
         calcTotalAmount(
           parseInt(preview?.rent_per_month),
           parseInt(data?.discount)
         )
         toast.success("Coupon claimed")
       } else {
+        setInvalidCoupon(true)
         calcTotalAmount(parseInt(preview?.rent_per_month), 0)
         toast.error(data.message)
       }
@@ -50,7 +53,6 @@ const Payment = () => {
     }
 
     setCoupon("")
-    setDisableCoupon(true)
   }
 
   // Calculate discounted amount
@@ -123,7 +125,8 @@ const Payment = () => {
               ${preview?.rent_per_month || 0}
             </span>
           </p>
-          {!disableCoupon && (
+          {/* Coupon field */}
+          {(!disableCoupon || !invalidCoupon) && (
             <form
               onSubmit={handleCouponSubmit}
               className="flex items-end gap-5 my-5"
@@ -168,7 +171,10 @@ const Payment = () => {
               options={options}
               stripe={stripePromise}
             >
-              <CheckoutForm totalAmount={totalAmount} />
+              <CheckoutForm
+                totalAmount={totalAmount}
+                clientSecret={clientSecret}
+              />
             </Elements>
           )}
         </div>
