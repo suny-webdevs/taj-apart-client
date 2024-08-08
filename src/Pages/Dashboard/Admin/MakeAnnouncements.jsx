@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async"
 import useAxiosSecure from "../../../Hooks/useAxiosSecure"
 import toast from "react-hot-toast"
+import { format } from "date-fns"
 
 const MakeAnnouncements = () => {
   const axiosSecure = useAxiosSecure()
@@ -15,6 +16,7 @@ const MakeAnnouncements = () => {
       const savedInfo = {
         title,
         desc,
+        date: format(new Date(), "PP"),
       }
 
       const { data } = await axiosSecure.post("/announcements", savedInfo)

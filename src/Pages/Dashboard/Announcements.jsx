@@ -1,9 +1,9 @@
 import Announcement from "../../Component/Dashboard/Sidebar/Announcements/Announcement"
 import LoadingSpinner from "../../Component/Shared/LoadingSpinner"
-import UseAnnounce from "../../Hooks/useAnnounce"
+import useAnnounce from "../../Hooks/useAnnounce"
 
 const Announcements = () => {
-  const [announcements, isLoading] = UseAnnounce()
+  const [announcements, isLoading] = useAnnounce()
 
   if (isLoading) return <LoadingSpinner />
 
@@ -13,7 +13,7 @@ const Announcements = () => {
         Announcements
       </h1>
       <div className="flex justify-start items-center">
-        <div className="card gap-1 shrink-0 w-full max-w-3xl bg-base-100">
+        <div className="card gap-2 shrink-0 w-full max-w-3xl bg-base-100">
           {announcements.map((announcement) => (
             <Announcement
               key={announcement._id}

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import useAxiosPublic from "./useAxiosPublic"
 
-const UseAnnounce = () => {
+const useAnnounce = () => {
   const axiosPublic = useAxiosPublic()
 
   const { data: announcements = [], isLoading } = useQuery({
@@ -15,4 +15,4 @@ const UseAnnounce = () => {
   return [announcements, isLoading]
 }
 
-export default UseAnnounce
+export default useAnnounce
