@@ -66,7 +66,6 @@ const Payment = () => {
   }
 
   const [clientSecret, setClientSecret] = useState("")
-  console.log(clientSecret)
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -174,6 +173,7 @@ const Payment = () => {
               <CheckoutForm
                 totalAmount={totalAmount}
                 clientSecret={clientSecret}
+                payAbleMonth={preview?.month}
               />
             </Elements>
           )}

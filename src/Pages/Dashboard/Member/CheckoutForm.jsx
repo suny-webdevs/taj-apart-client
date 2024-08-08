@@ -4,19 +4,20 @@
 
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { FaRegCreditCard } from "react-icons/fa6"
-import { FaCheck } from "react-icons/fa"
 import PropTypes from "prop-types"
 
 import "./CheckoutForm.css"
 import useAuth from "../../../Hooks/useAuth"
-import { useState } from "react"
+import useAxiosPublic from "../../../Hooks/useAxiosPublic"
+import { format } from "date-fns"
+import { useNavigate } from "react-router-dom"
 
-const CheckoutForm = ({ totalAmount, clientSecret }) => {
+const CheckoutForm = ({ totalAmount, clientSecret, payAbleMonth }) => {
   const stripe = useStripe()
   const elements = useElements()
   const { user } = useAuth()
-
-  const [trnxId, setTrnxId] = useState("")
+  const axiosPublic = useAxiosPublic()
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     // Block native form submission.
@@ -46,7 +47,7 @@ const CheckoutForm = ({ totalAmount, clientSecret }) => {
     if (error) {
       console.log("[error]", error)
     } else {
-      console.log("[PaymentMethod]", paymentMethod)
+      console.log("[PaymentMethod]")
     }
 
     // Confirm payment
@@ -64,10 +65,19 @@ const CheckoutForm = ({ totalAmount, clientSecret }) => {
     if (confirmError) {
       console.log("Confirm error", confirmError)
     } else {
-      console.log("Payment intent", paymentIntent)
       if (paymentIntent.status === "succeeded") {
-        console.log("TrnxID: ", paymentIntent.id)
-        setTrnxId(paymentIntent.id)
+        const paymentInfo = {
+          user_email: user?.email,
+          wallet: paymentMethod.card.brand,
+          trnxID: paymentIntent.id,
+          amount: totalAmount,
+          month: payAbleMonth,
+          date: format(new Date(), "PP"),
+        }
+        const { data } = await axiosPublic.post("/payments", paymentInfo)
+        if (data.insertedId) {
+          navigate("/dashboard/m/payment-history")
+        }
       }
     }
   }
@@ -98,19 +108,6 @@ const CheckoutForm = ({ totalAmount, clientSecret }) => {
         <FaRegCreditCard className="text-lg" /> Pay{" "}
         <span className="ml-1">${totalAmount || 0}</span>
       </button>
-      <p className="mt-5">
-        {trnxId && (
-          <p className="w-full md:w-[70%] text-white font-medium bg-green-600 border-b-4 border-green-700 py-2 px-4 rounded flex items-center gap-3">
-            <FaCheck className="text-xl text-green-600 bg-green-100 p-1 rounded-full" />{" "}
-            <span>
-              Payment successful. Your TrnxID :{" "}
-              <code className="font-mono text-green-600 text-lg font-semibold py-1 px-2 rounded bg-green-100 border">
-                {trnxId}
-              </code>
-            </span>
-          </p>
-        )}
-      </p>
     </form>
   )
 }
@@ -118,6 +115,7 @@ const CheckoutForm = ({ totalAmount, clientSecret }) => {
 CheckoutForm.propTypes = {
   totalAmount: PropTypes.number,
   clientSecret: PropTypes.string,
+  payAbleMonth: PropTypes.string,
 }
 
 export default CheckoutForm

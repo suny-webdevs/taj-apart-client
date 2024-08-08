@@ -14,8 +14,6 @@ const PaymentHistory = () => {
     },
   })
 
-  console.log(PaymentHistory)
-
   return (
     <div className="p-5">
       <h1 className="text-3xl text-primary uppercase font-bold">
@@ -27,11 +25,11 @@ const PaymentHistory = () => {
             <thead>
               <tr className="text-sm">
                 <th></th>
+                <th className="font-semibold">User Email</th>
                 <th className="font-semibold">Wallet</th>
                 <th className="font-semibold">TrxID</th>
                 <th className="font-semibold">Amount</th>
                 <th className="font-semibold">Month</th>
-                <th className="font-semibold">User Email</th>
                 <th className="font-semibold">Date</th>
               </tr>
             </thead>
@@ -42,11 +40,11 @@ const PaymentHistory = () => {
                   key={payment._id}
                 >
                   <th className="font-semibold">{index + 1}</th>
-                  <th className="font-semibold">{payment?.wallet}</th>
-                  <th className="font-semibold">{payment?.trxID}</th>
-                  <th className="font-semibold">{payment?.amount}</th>
-                  <th className="font-semibold">{payment?.month}</th>
                   <th className="font-semibold">{payment?.user_email}</th>
+                  <th className="font-semibold">{payment?.wallet}</th>
+                  <th className="font-semibold">{payment?.trnxID}</th>
+                  <th className="font-semibold">${payment?.amount}</th>
+                  <th className="font-semibold">{payment?.month}</th>
                   <th className="font-semibold">{payment?.date}</th>
                 </tr>
               ))}
