@@ -17,14 +17,6 @@ const SignUp = () => {
 
   const navigate = useNavigate()
 
-  const redirectPage = `${
-    role === "user"
-      ? "/dashboard/u"
-      : role === "admin"
-      ? "/dashboard/a"
-      : "/dashboard/m"
-  }`
-
   const {
     register,
     handleSubmit,
@@ -48,7 +40,9 @@ const SignUp = () => {
       await axiosSecure.put("/users", userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
-      navigate(redirectPage)
+      if (role === "user") return navigate("/dashboard/u", { replace: true })
+      if (role === "member") return navigate("/dashboard/m", { replace: true })
+      if (role === "admin") return navigate("/dashboard/a", { replace: true })
       // }
     } catch (err) {
       console.log(err.message)
@@ -75,8 +69,9 @@ const SignUp = () => {
       await axiosSecure("/users", userInfo)
 
       toast.success("Sign up successful", { position: "top-center" })
-      navigate(redirectPage)
-      // }
+      if (role === "user") return navigate("/dashboard/u", { replace: true })
+      if (role === "member") return navigate("/dashboard/m", { replace: true })
+      if (role === "admin") return navigate("/dashboard/a", { replace: true })
     } catch (error) {
       console.log(error.message)
     }

@@ -20,6 +20,7 @@ import ManageCoupons from "../Pages/Dashboard/Admin/ManageCoupons"
 import MakePayment from "../Pages/Dashboard/Member/MakePayment"
 import PaymentHistory from "../Pages/Dashboard/Member/PaymentHistory"
 import Payment from "../Pages/Dashboard/Member/Payment"
+import Dashboard from "../Pages/Dashboard/Dashboard"
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
       {
         path: `u`,
         element: (

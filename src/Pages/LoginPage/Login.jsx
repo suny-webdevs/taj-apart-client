@@ -9,22 +9,12 @@ import useRole from "../../Hooks/useRole"
 
 const Login = () => {
   const { userSignIn, googleSignIn } = useAuth()
-  const [role] = useRole()
+  const [role, isLoading] = useRole()
 
   const axiosSecure = useAxiosSecure()
 
   const navigate = useNavigate()
   const location = useLocation()
-
-  const redirect =
-    location?.state ||
-    `${
-      role === "user"
-        ? "/dashboard/u"
-        : role === "admin"
-        ? "/dashboard/a"
-        : "/dashboard/m"
-    }`
 
   // Form login
   const handleSignIn = async (e) => {
@@ -36,8 +26,44 @@ const Login = () => {
 
     try {
       await userSignIn(email, password)
-      toast.success("Login successful", { position: "top-center" })
-      navigate(redirect, { replace: true })
+
+      navigate(
+        location?.state
+          ? location?.state
+          : `/dashboard/${
+              role === "admin"
+                ? "a"
+                : role === "member"
+                ? "m"
+                : role === "user"
+                ? "u"
+                : ""
+            }`,
+        {
+          replace: true,
+        }
+      )
+
+      // if (role === "user") {
+      //   navigate(location?.state ? location?.state : "/dashboard/u", {
+      //     replace: true,
+      //   })
+      //   toast.success("Login successful", { position: "top-center" })
+      // }
+
+      // if (role === "member") {
+      //   navigate(location?.state ? location?.state : "/dashboard/m", {
+      //     replace: true,
+      //   })
+      //   toast.success("Login successful", { position: "top-center" })
+      // }
+
+      // if (role === "admin") {
+      //   navigate(location?.state ? location?.state : "/dashboard/a", {
+      //     replace: true,
+      //   })
+      //   toast.success("Login successful", { position: "top-center" })
+      // }
     } catch (err) {
       if (err.message.includes("invalid-credential")) {
         toast.error("User not found, please sign up.", {
@@ -61,9 +87,22 @@ const Login = () => {
       }
       // await putUser(userInfo)
       await axiosSecure.put("/users", userInfo)
-
       toast.success("Login successful", { position: "top-center" })
-      navigate(redirect, { replace: true })
+
+      navigate(location?.state ? location?.state : "/", { replace: true })
+
+      // if (role === "user")
+      //   navigate(location?.state ? location?.state : "/dashboard/u", {
+      //     replace: true,
+      //   })
+      // if (role === "member")
+      //   navigate(location?.state ? location?.state : "/dashboard/m", {
+      //     replace: true,
+      //   })
+      // if (role === "admin")
+      //   navigate(location?.state ? location?.state : "/dashboard/a", {
+      //     replace: true,
+      //   })
     } catch (error) {
       console.log(error.message)
     }
@@ -122,7 +161,7 @@ const Login = () => {
               type="submit"
               className="bg-primary py-3 text-white rounded-lg"
             >
-              Login
+              {isLoading ? "Loading..." : "Login"}
             </button>
           </div>
         </form>
