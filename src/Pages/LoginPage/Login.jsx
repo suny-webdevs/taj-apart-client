@@ -9,7 +9,7 @@ import useRole from "../../Hooks/useRole"
 
 const Login = () => {
   const { userSignIn, googleSignIn } = useAuth()
-  const [role, isLoading] = useRole()
+  const [isLoading] = useRole()
 
   const axiosSecure = useAxiosSecure()
 
@@ -27,22 +27,9 @@ const Login = () => {
     try {
       await userSignIn(email, password)
 
-      navigate(
-        location?.state
-          ? location?.state
-          : `/dashboard/${
-              role === "admin"
-                ? "a"
-                : role === "member"
-                ? "m"
-                : role === "user"
-                ? "u"
-                : ""
-            }`,
-        {
-          replace: true,
-        }
-      )
+      navigate(location?.state ? location?.state : "/dashboard", {
+        replace: true,
+      })
 
       // if (role === "user") {
       //   navigate(location?.state ? location?.state : "/dashboard/u", {
@@ -89,7 +76,9 @@ const Login = () => {
       await axiosSecure.put("/users", userInfo)
       toast.success("Login successful", { position: "top-center" })
 
-      navigate(location?.state ? location?.state : "/", { replace: true })
+      navigate(location?.state ? location?.state : "/dashboard", {
+        replace: true,
+      })
 
       // if (role === "user")
       //   navigate(location?.state ? location?.state : "/dashboard/u", {
