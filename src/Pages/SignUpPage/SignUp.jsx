@@ -8,12 +8,10 @@ import SocialLogin from "../../Component/Shared/SocialLogin"
 import { imageUpload } from "../../Utilities"
 import "./styles.css"
 import useAxiosSecure from "../../Hooks/useAxiosSecure"
-import useRole from "../../Hooks/useRole"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, googleSignIn } = useAuth()
   const axiosSecure = useAxiosSecure()
-  const [role] = useRole()
 
   const navigate = useNavigate()
 
@@ -39,10 +37,12 @@ const SignUp = () => {
       }
       await axiosSecure.put("/users", userInfo)
 
+      navigate("/dashboard", { replace: true })
+
       toast.success("Sign up successful", { position: "top-center" })
-      if (role === "user") return navigate("/dashboard/u", { replace: true })
-      if (role === "member") return navigate("/dashboard/m", { replace: true })
-      if (role === "admin") return navigate("/dashboard/a", { replace: true })
+      // if (role === "user") return navigate("/dashboard/u", { replace: true })
+      // if (role === "member") return navigate("/dashboard/m", { replace: true })
+      // if (role === "admin") return navigate("/dashboard/a", { replace: true })
       // }
     } catch (err) {
       console.log(err.message)
@@ -68,10 +68,12 @@ const SignUp = () => {
       }
       await axiosSecure("/users", userInfo)
 
+      navigate("/dashboard", { replace: true })
+
       toast.success("Sign up successful", { position: "top-center" })
-      if (role === "user") return navigate("/dashboard/u", { replace: true })
-      if (role === "member") return navigate("/dashboard/m", { replace: true })
-      if (role === "admin") return navigate("/dashboard/a", { replace: true })
+      // if (role === "user") return navigate("/dashboard/u", { replace: true })
+      // if (role === "member") return navigate("/dashboard/m", { replace: true })
+      // if (role === "admin") return navigate("/dashboard/a", { replace: true })
     } catch (error) {
       console.log(error.message)
     }
