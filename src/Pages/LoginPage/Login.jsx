@@ -79,19 +79,6 @@ const Login = () => {
       navigate(location?.state ? location?.state : "/dashboard", {
         replace: true,
       })
-
-      // if (role === "user")
-      //   navigate(location?.state ? location?.state : "/dashboard/u", {
-      //     replace: true,
-      //   })
-      // if (role === "member")
-      //   navigate(location?.state ? location?.state : "/dashboard/m", {
-      //     replace: true,
-      //   })
-      // if (role === "admin")
-      //   navigate(location?.state ? location?.state : "/dashboard/a", {
-      //     replace: true,
-      //   })
     } catch (error) {
       console.log(error.message)
     }

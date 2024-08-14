@@ -11,7 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth"
 import auth from "../Firebase/firebaseConfig"
-// import useAxiosPublic from "../Hooks/useAxiosPublic"
+import useAxiosPublic from "../Hooks/useAxiosPublic"
 
 export const AuthContext = createContext(null)
 
@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
   const [preview, setPreview] = useState({})
 
   const googleProvider = new GoogleAuthProvider()
-  // const axiosPublic = useAxiosPublic()
+  const axiosPublic = useAxiosPublic()
 
   const createUser = (email, password) => {
     setLoading(true)
@@ -47,29 +47,31 @@ const AuthProvider = ({ children }) => {
 
   const userSignOut = () => {
     setLoading(true)
+    axiosPublic("/logout", { withCredentials: true })
     return signOut(auth)
   }
 
-  const removeUser = (bistroUser) => {
+  const removeUser = (user) => {
     setLoading(true)
-    return deleteUser(bistroUser)
+    return deleteUser(user)
   }
 
   // jwt
-  // const getToken = async (email) => {
-  //   const userInfo = { email: email }
-  //   const { data } = await axiosPublic.post("/jwt", userInfo)
-  //   return data
-  // }
+  const getToken = async (email) => {
+    const { data } = await axiosPublic.post(
+      "/jwt",
+      { email },
+      { withCredentials: true }
+    )
+    return data
+  }
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
-      // if (currentUser) {
-      //   // getToken(currentUser.email)
-      // } else {
-      //   localStorage.removeItem("access-token")
-      // }
+      if (currentUser) {
+        getToken(currentUser?.email)
+      }
       setLoading(false)
     })
     return () => unSubscribe()

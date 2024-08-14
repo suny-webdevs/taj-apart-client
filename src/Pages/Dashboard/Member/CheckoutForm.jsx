@@ -11,6 +11,7 @@ import useAuth from "../../../Hooks/useAuth"
 import useAxiosPublic from "../../../Hooks/useAxiosPublic"
 import { format } from "date-fns"
 import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
 
 const CheckoutForm = ({ totalAmount, clientSecret, payAbleMonth }) => {
   const stripe = useStripe()
@@ -63,7 +64,7 @@ const CheckoutForm = ({ totalAmount, clientSecret, payAbleMonth }) => {
       })
 
     if (confirmError) {
-      console.log("Confirm error", confirmError)
+      console.log("Confirm error")
     } else {
       if (paymentIntent.status === "succeeded") {
         const paymentInfo = {
@@ -77,6 +78,7 @@ const CheckoutForm = ({ totalAmount, clientSecret, payAbleMonth }) => {
         const { data } = await axiosPublic.post("/payments", paymentInfo)
         if (data.insertedId) {
           navigate("/dashboard/m/payment-history")
+          toast.success("Payment successful!")
         }
       }
     }
