@@ -47,7 +47,7 @@ function AdminProfileModal({ isOpen, close }) {
 }
 
 AdminProfileModal.propTypes = {
-  isOpen: PropTypes.func,
+  isOpen: PropTypes.bool,
   close: PropTypes.func,
 }
 
